@@ -6,13 +6,13 @@ export default function MasterProductionSchedule(props: {
 }) {
     const {numberOfWeeks, inStock} = props;
 
-    const [projectedDemand, setProjectedDemand] = useState(Array(numberOfWeeks).fill(0));
+    const [demand, setDemand] = useState(Array(numberOfWeeks).fill(0));
     const [production, setProduction] = useState(Array(numberOfWeeks).fill(0));
     const [available, setAvailable] = useState(Array(numberOfWeeks).fill(0));
 
-    if (projectedDemand.length !== numberOfWeeks) {
-        const fillArrayLength = numberOfWeeks - projectedDemand.length > 0 ? numberOfWeeks - projectedDemand.length : 0;
-        setProjectedDemand([...projectedDemand.slice(0, numberOfWeeks), ...Array(fillArrayLength).fill(0)])
+    if (demand.length !== numberOfWeeks) {
+        const fillArrayLength = numberOfWeeks - demand.length > 0 ? numberOfWeeks - demand.length : 0;
+        setDemand([...demand.slice(0, numberOfWeeks), ...Array(fillArrayLength).fill(0)])
         setProduction([...production.slice(0, numberOfWeeks), ...Array(fillArrayLength).fill(0)])
         setAvailable([...available.slice(0, numberOfWeeks), ...Array(fillArrayLength).fill(0)])
     }
@@ -22,19 +22,19 @@ export default function MasterProductionSchedule(props: {
             <tbody>
             <tr>
                 <th>Week</th>
-                {projectedDemand.map((demand, index) => (
+                {demand.map((demand, index) => (
                     <td className="text-center" key={index}>{index + 1}</td>
                 ))}
             </tr>
             <tr>
-                <th>Projected demand</th>
-                {projectedDemand.map((demand, index) => (
+                <th>Demand</th>
+                {demand.map((demand, index) => (
                     <td key={index}>
                         <input type="number"
                                className={`input input-bordered w-full min-w-24 transition ${!demand ? "opacity-50" : ""} focus:opacity-100`}
                                value={demand.toString() || 0}
                                onChange={(e) => {
-                                   setProjectedDemand(projectedDemand.map((item: number, i: number) => {
+                                   setDemand(demand.map((item: number, i: number) => {
                                            return index === i ? parseInt(e.target.value) : item;
                                        }
                                    ));
