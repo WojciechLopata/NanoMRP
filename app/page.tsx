@@ -8,6 +8,10 @@ export default function Home() {
     const [numberOfWeeks, setNumberOfWeeks] = useState(7);
     const [inStock, setInStock] = useState(0);
 
+    const [demand, setDemand] = useState(Array(numberOfWeeks).fill(0));
+    const [production, setProduction] = useState(Array(numberOfWeeks).fill(0));
+    const [available, setAvailable] = useState(Array(numberOfWeeks).fill(0));
+
     return (
         <main className="p-10 container mx-auto">
             <section className="flex flex-col gap-5">
@@ -36,7 +40,16 @@ export default function Home() {
                     </label>
                 </div>
                 <div className="overflow-x-auto">
-                    <MasterProductionSchedule numberOfWeeks={numberOfWeeks} inStock={inStock}/>
+                    <MasterProductionSchedule
+                        numberOfWeeks={numberOfWeeks}
+                        inStock={inStock}
+                        demand={demand}
+                        setDemand={setDemand}
+                        production={production}
+                        setProduction={setProduction}
+                        available={available}
+                        setAvailable={setAvailable}
+                    />
                 </div>
             </section>
         </main>
