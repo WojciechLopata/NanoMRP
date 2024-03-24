@@ -1,54 +1,32 @@
-import {useState} from "react";
+import Mrp from "@/models/mrp";
+import recalculate from "@/lib/recalculate";
 
 export default function MasterProductionSchedule(props: {
-    numberOfWeeks: number,
-    inStock: number,
-    demand: number[],
-    setDemand: Function,
-    production: number[],
-    setProduction: Function,
-    available: number[],
-    setAvailable: Function
+    mrp: Mrp,
+    setMrp: (mrp: Mrp) => void
 }) {
-    const {
-        numberOfWeeks,
-        inStock,
-        demand,
-        setDemand,
-        production,
-        setProduction,
-        available,
-        setAvailable
-    } = props;
-
-    if (demand.length !== numberOfWeeks) {
-        const fillArrayLength = numberOfWeeks - demand.length > 0 ? numberOfWeeks - demand.length : 0;
-        setDemand([...demand.slice(0, numberOfWeeks), ...Array(fillArrayLength).fill(0)])
-        setProduction([...production.slice(0, numberOfWeeks), ...Array(fillArrayLength).fill(0)])
-        setAvailable([...available.slice(0, numberOfWeeks), ...Array(fillArrayLength).fill(0)])
-    }
+    const {mrp, setMrp} = props;
 
     return (
         <table className="table table-pin-cols">
             <tbody>
             <tr>
                 <th>Week</th>
-                {demand.map((demand, index) => (
+                {mrp.mpsPeriods.map((mpsPeriod, index) => (
                     <td className="text-center" key={index}>{index + 1}</td>
                 ))}
             </tr>
             <tr>
                 <th>Demand</th>
-                {demand.map((value, index) => (
+                {mrp.mpsPeriods.map((mpsPeriod, index) => (
                     <td key={index}>
                         <input type="number"
-                               className={`input input-bordered w-full min-w-24 transition ${!value ? "opacity-50" : ""} focus:opacity-100`}
-                               value={value.toString() || 0}
+                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.forecastedDemand ? "opacity-50" : ""} focus:opacity-100`}
+                               value={mpsPeriod.forecastedDemand.toString() || 0}
                                onChange={(e) => {
-                                   setDemand(demand.map((item: number, i: number) => {
-                                           return index === i ? parseInt(e.target.value) : item;
-                                       }
-                                   ));
+                                   const newMrp = JSON.parse(JSON.stringify(mrp));
+                                   newMrp.mpsPeriods[index].forecastedDemand = parseInt(e.target.value) || 0;
+                                   setMrp(recalculate(newMrp));
                                }}
                         />
                     </td>
@@ -56,16 +34,15 @@ export default function MasterProductionSchedule(props: {
             </tr>
             <tr>
                 <th>Production</th>
-                {production.map((value, index) => (
+                {mrp.mpsPeriods.map((mpsPeriod, index) => (
                     <td key={index}>
                         <input type="number"
-                               className={`input input-bordered w-full min-w-24 transition ${!value ? "opacity-50" : ""} focus:opacity-100`}
-                               value={value.toString() || 0}
+                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.production ? "opacity-50" : ""} focus:opacity-100`}
+                               value={mpsPeriod.production.toString() || 0}
                                onChange={(e) => {
-                                   setProduction(production.map((item: number, i: number) => {
-                                           return index === i ? parseInt(e.target.value) : item;
-                                       }
-                                   ));
+                                   const newMrp = JSON.parse(JSON.stringify(mrp));
+                                   newMrp.mpsPeriods[index].production = parseInt(e.target.value) || 0;
+                                   setMrp(recalculate(newMrp));
                                }}
                         />
                     </td>
@@ -73,17 +50,12 @@ export default function MasterProductionSchedule(props: {
             </tr>
             <tr>
                 <th>Available</th>
-                {available.map((value, index) => (
+                {mrp.mpsPeriods.map((mpsPeriod, index) => (
                     <td key={index}>
-                        <input type="number"
-                               className={`input input-bordered w-full min-w-24 transition ${!value ? "opacity-50" : ""} focus:opacity-100`}
-                               value={value.toString() || 0}
-                               onChange={(e) => {
-                                   setAvailable(available.map((item: number, i: number) => {
-                                           return index === i ? parseInt(e.target.value) : item;
-                                       }
-                                   ));
-                               }}
+                        <input type="text"
+                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.available ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
+                               value={mpsPeriod.available.toString() || 0}
+                               readOnly={true}
                         />
                     </td>
                 ))}

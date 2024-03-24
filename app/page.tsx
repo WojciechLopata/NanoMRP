@@ -2,29 +2,31 @@
 
 import {useState} from "react";
 import MasterProductionSchedule from "@/components/MasterProductionSchedule";
+import Mrp from "@/models/mrp";
+import MpsPeriod from "@/models/mpsPeriod";
+import recalculate from "@/lib/recalculate";
 
 export default function Home() {
 
-    const [numberOfWeeks, setNumberOfWeeks] = useState(7);
-    const [inStock, setInStock] = useState(0);
-
-    const [demand, setDemand] = useState(Array(numberOfWeeks).fill(0));
-    const [production, setProduction] = useState(Array(numberOfWeeks).fill(0));
-    const [available, setAvailable] = useState(Array(numberOfWeeks).fill(0));
+    const [mrp, setMrp] = useState(new Mrp(7));
 
     return (
-        <main className="p-10 container mx-auto">
+        <main className="p-10 mx-auto">
             <section className="flex flex-col gap-5">
                 <div className="flex gap-5">
                     <label
                         className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
                         Number of weeks
                         <input type="number" className="grow"
-                               value={numberOfWeeks}
+                               value={mrp.numberOfPeriods}
                                onChange={(e) => {
-                                   const newNumberOfWeeks = parseInt(e.target.value);
-                                   if (isNaN(newNumberOfWeeks) || newNumberOfWeeks < 1) return;
-                                   setNumberOfWeeks(newNumberOfWeeks);
+                                   const numberOfPeriods = parseInt(e.target.value);
+                                   if (isNaN(numberOfPeriods) || numberOfPeriods < 1) return;
+                                   const fillArrayLength = numberOfPeriods - mrp.mpsPeriods.length > 0 ? numberOfPeriods - mrp.mpsPeriods.length : 0;
+                                   const newMrp = JSON.parse(JSON.stringify(mrp));
+                                   newMrp.numberOfPeriods = numberOfPeriods;
+                                   newMrp.mpsPeriods = [...mrp.mpsPeriods.slice(0, numberOfPeriods), ...Array(fillArrayLength).fill(new MpsPeriod())];
+                                   setMrp(recalculate(newMrp));
                                }}
                         />
                     </label>
@@ -32,23 +34,19 @@ export default function Home() {
                         className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
                         In stock
                         <input type="number" className="grow"
-                               value={inStock.toString() || 0}
+                               value={mrp.inventory.toString() || 0}
                                onChange={(e) => {
-                                   setInStock(parseInt(e.target.value) || 0);
+                                   const newMrp = JSON.parse(JSON.stringify(mrp));
+                                   newMrp.inventory = parseInt(e.target.value) || 0;
+                                   setMrp(recalculate(newMrp));
                                }}
                         />
                     </label>
                 </div>
                 <div className="overflow-x-auto">
                     <MasterProductionSchedule
-                        numberOfWeeks={numberOfWeeks}
-                        inStock={inStock}
-                        demand={demand}
-                        setDemand={setDemand}
-                        production={production}
-                        setProduction={setProduction}
-                        available={available}
-                        setAvailable={setAvailable}
+                        mrp={mrp}
+                        setMrp={setMrp}
                     />
                 </div>
             </section>
