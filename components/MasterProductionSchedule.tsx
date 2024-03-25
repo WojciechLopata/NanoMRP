@@ -1,9 +1,9 @@
-import Mrp from "@/models/mrp";
+import Plan from "@/models/plan";
 import recalculate from "@/lib/recalculate";
 
 export default function MasterProductionSchedule(props: {
-    mrp: Mrp,
-    setMrp: (mrp: Mrp) => void
+    mrp: Plan,
+    setMrp: (mrp: Plan) => void
 }) {
     const {mrp, setMrp} = props;
 
@@ -17,15 +17,15 @@ export default function MasterProductionSchedule(props: {
                 ))}
             </tr>
             <tr>
-                <th>Demand</th>
+                <th>Projected demand</th>
                 {mrp.mpsPeriods.map((mpsPeriod, index) => (
                     <td key={index}>
                         <input type="number"
-                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.forecastedDemand ? "opacity-50" : ""} focus:opacity-100`}
-                               value={mpsPeriod.forecastedDemand.toString() || 0}
+                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.projectedDemand ? "opacity-50" : ""} focus:opacity-100`}
+                               value={mpsPeriod.projectedDemand.toString() || 0}
                                onChange={(e) => {
                                    const newMrp = JSON.parse(JSON.stringify(mrp));
-                                   newMrp.mpsPeriods[index].forecastedDemand = parseInt(e.target.value) || 0;
+                                   newMrp.mpsPeriods[index].projectedDemand = parseInt(e.target.value) || 0;
                                    setMrp(recalculate(newMrp));
                                }}
                         />

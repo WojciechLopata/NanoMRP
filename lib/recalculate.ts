@@ -1,13 +1,13 @@
-import Mrp from "@/models/mrp";
+import Plan from "@/models/plan";
 
-function recalculate(mrp: Mrp) {
+function recalculate(mrp: Plan) {
     // Recalculate MPS
     mrp.mpsPeriods.forEach((mpsPeriod, index) => {
         // Recalculate available
         if (index === 0) {
-            mpsPeriod.available = mrp.inventory - mpsPeriod.forecastedDemand;
+            mpsPeriod.available = mrp.onHand - mpsPeriod.projectedDemand;
         } else {
-            mpsPeriod.available = mrp.mpsPeriods[index - 1].available - mpsPeriod.forecastedDemand;
+            mpsPeriod.available = mrp.mpsPeriods[index - 1].available - mpsPeriod.projectedDemand;
         }
 
         // Recalculate production

@@ -2,13 +2,21 @@
 
 import {useState} from "react";
 import MasterProductionSchedule from "@/components/MasterProductionSchedule";
-import Mrp from "@/models/mrp";
-import MpsPeriod from "@/models/mpsPeriod";
+import Plan from "@/models/plan";
 import recalculate from "@/lib/recalculate";
+import MPSPeriod from "@/models/MPSPeriod";
 
 export default function Home() {
 
-    const [mrp, setMrp] = useState(new Mrp(7));
+    // Default number of periods in the Master Production Schedule and all the components
+    const DEFAULT_NUMBER_OF_PERIODS = 7;
+
+    const [mrp, setMrp] = useState(new Plan(
+        DEFAULT_NUMBER_OF_PERIODS,
+        0,
+        Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MPSPeriod()),
+        []
+    ));
 
     return (
         <main className="p-10 mx-auto">
@@ -16,7 +24,7 @@ export default function Home() {
                 <div className="flex gap-5">
                     <label
                         className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
-                        Number of weeks
+                        Number of periods
                         <input type="number" className="grow"
                                value={mrp.numberOfPeriods}
                                onChange={(e) => {
@@ -25,19 +33,19 @@ export default function Home() {
                                    const fillArrayLength = numberOfPeriods - mrp.mpsPeriods.length > 0 ? numberOfPeriods - mrp.mpsPeriods.length : 0;
                                    const newMrp = JSON.parse(JSON.stringify(mrp));
                                    newMrp.numberOfPeriods = numberOfPeriods;
-                                   newMrp.mpsPeriods = [...mrp.mpsPeriods.slice(0, numberOfPeriods), ...Array(fillArrayLength).fill(new MpsPeriod())];
+                                   newMrp.mpsPeriods = [...mrp.mpsPeriods.slice(0, numberOfPeriods), ...Array(fillArrayLength).fill(new MPSPeriod())];
                                    setMrp(recalculate(newMrp));
                                }}
                         />
                     </label>
                     <label
                         className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
-                        Inventory
+                        On hand
                         <input type="number" className="grow"
-                               value={mrp.inventory.toString() || 0}
+                               value={mrp.onHand.toString() || 0}
                                onChange={(e) => {
                                    const newMrp = JSON.parse(JSON.stringify(mrp));
-                                   newMrp.inventory = parseInt(e.target.value) || 0;
+                                   newMrp.onHand = parseInt(e.target.value) || 0;
                                    setMrp(recalculate(newMrp));
                                }}
                         />
