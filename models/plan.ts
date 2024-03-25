@@ -1,19 +1,20 @@
 import MPSPeriod from "@/models/MPSPeriod";
 import MRPComponent from "@/models/MRPComponent";
 
+// Main class for the entire plan
 class Plan {
-    // Number of periods in the entire plan
     numberOfPeriods: number;
-
-    // Number of finished products at the beginning in the inventory
     onHand: number;
-
-    // All the periods (columns) in the Master Production Schedule table
     mpsPeriods: MPSPeriod[];
-
-    // All the components (tables) in the Material Requirements Plan
     mrpComponents: MRPComponent[];
 
+    /**
+     * Constructor for the Plan class
+     * @param numberOfPeriods Number of periods in the entire plan
+     * @param onHand Number of finished products at the beginning in the inventory
+     * @param mpsPeriods All the periods (columns) in the Master Production Schedule table
+     * @param mrpComponents All the components (tables) in the Material Requirements Plan
+     */
     constructor(
         numberOfPeriods = 0,
         onHand = 0,
