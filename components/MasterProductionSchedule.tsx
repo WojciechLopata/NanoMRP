@@ -36,14 +36,10 @@ export default function MasterProductionSchedule(props: {
                 <th>Production</th>
                 {mrp.mpsPeriods.map((mpsPeriod, index) => (
                     <td key={index}>
-                        <input type="number"
-                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.production ? "opacity-50" : ""} focus:opacity-100`}
+                        <input type="text"
+                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.production ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
                                value={mpsPeriod.production.toString() || 0}
-                               onChange={(e) => {
-                                   const newMrp = JSON.parse(JSON.stringify(mrp));
-                                   newMrp.mpsPeriods[index].production = parseInt(e.target.value) || 0;
-                                   setMrp(recalculate(newMrp));
-                               }}
+                               readOnly={true}
                         />
                     </td>
                 ))}
