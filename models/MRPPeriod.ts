@@ -1,22 +1,20 @@
 class MRPPeriod {
-    // Total amount required at the end of period
     grossRequirements: number;
-
-    // Additional amount scheduled to be received
     scheduledReceipts: number;
-
-    // Expected amount in the inventory
     projectedOnHand: number;
-
-    // Net amount required
     netRequirements: number;
-
-    // Planned new order
     plannedOrderReleases: number;
-
-    // Amount received from previously planned orders
     plannedOrderReceipts: number;
 
+    /**
+     * Constructor for the MRPPeriod class
+     * @param grossRequirements Total amount required at the end of period
+     * @param scheduledReceipts Additional amount scheduled to be received
+     * @param projectedOnHand Expected amount in the inventory
+     * @param netRequirements Net amount required
+     * @param plannedOrderReleases Planned new order
+     * @param plannedOrderReceipts Amount received from previously planned orders
+     */
     constructor(
         grossRequirements = 0,
         scheduledReceipts = 0,

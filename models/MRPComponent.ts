@@ -1,27 +1,24 @@
 import MRPPeriod from "@/models/MRPPeriod";
 
 class MRPComponent {
-    // The name of the component
     name: string;
-
-    // The amount of the component needed for each parent component
     quantity: number;
-
-    // The time it takes to produce the component
     leadTime: number;
-
-    // The size of a single lot
     lotSize: number;
-
-    // The number of components in the inventory
     onHand: number;
-
-    // All production periods for this component
     mrpPeriods: MRPPeriod[];
-
-    // The children components of this component
     children: MRPComponent[];
 
+    /**
+     * Constructor for the MRPComponent class
+     * @param name The name of the component
+     * @param quantity The amount of the component needed for each parent component
+     * @param leadTime The time it takes to produce the component
+     * @param lotSize The size of a single lot
+     * @param onHand The number of components in the inventory
+     * @param mrpPeriods All production periods for this component
+     * @param children The children components of this component
+     */
     constructor(
         name = '',
         quantity = 0,

@@ -4,6 +4,12 @@ class MPSPeriod {
     available: number;
     
 
+    /**
+     * Constructor for the MPSPeriod class
+     * @param forecastedDemand Projected demand for the period
+     * @param production Amount of products to be produced
+     * @param available Amount of products available in the inventory
+     */
     constructor(
         forecastedDemand = 0,
         production = 0,
