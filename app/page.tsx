@@ -50,6 +50,28 @@ export default function Home() {
                                }}
                         />
                     </label>
+                    <label
+                        className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
+                        Lot size
+                        <input type="number" className="grow"
+                               value={mrp.lotSize|| 0}
+                               onChange={(e) => {
+                                   const newMrp = JSON.parse(JSON.stringify(mrp));
+                                   newMrp.lotSize = parseInt(e.target.value) || 0;
+                                   setMrp(recalculate(newMrp));
+                               }}
+                        />
+                    </label>
+                    <label>
+                        Automatic MSP production calculation 
+                        <input type="checkbox" onChange={(e) => {
+                            const newMrp = JSON.parse(JSON.stringify(mrp));
+                            newMrp.automaticMSPCalculations =  !newMrp.automaticMSPCalculations 
+                                
+                                   setMrp(recalculate(newMrp));
+                               }}/>
+
+                    </label>
                 </div>
                 <div className="overflow-x-auto">
                     <MasterProductionSchedule

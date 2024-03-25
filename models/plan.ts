@@ -14,16 +14,23 @@ class Plan {
     // All the components (tables) in the Material Requirements Plan
     mrpComponents: MRPComponent[];
 
+    lotSize: number;
+
+    automaticMSPCalculations= false;
+
     constructor(
         numberOfPeriods = 0,
         onHand = 0,
         mpsPeriods = <MPSPeriod[]>[],
-        mrpComponents = <MRPComponent[]>[]
+        mrpComponents = <MRPComponent[]>[],
+        lotSize=1
+
     ) {
         this.numberOfPeriods = numberOfPeriods;
         this.onHand = onHand;
         this.mpsPeriods = mpsPeriods;
         this.mrpComponents = mrpComponents;
+        this.lotSize=lotSize;
     }
 }
 
