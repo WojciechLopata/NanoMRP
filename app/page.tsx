@@ -40,7 +40,7 @@ export default function Home() {
                     <label
                         className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
                         Number of periods
-                        <input type="number" className="grow"
+                        <input type="number" className="grow min-w-10"
                             value={mrp.numberOfPeriods.toString() || 0}
                             onChange={handleNumberOfPeriodsChange}
                         />
@@ -48,7 +48,7 @@ export default function Home() {
                     <label
                         className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
                         On hand
-                        <input type="number" className="grow"
+                        <input type="number" className="grow min-w-10"
                             value={mrp.onHand.toString() || 0}
                             onChange={(e) => {
                                 const newMrp = JSON.parse(JSON.stringify(mrp));
@@ -60,7 +60,7 @@ export default function Home() {
                     <label
                         className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
                         Lot size
-                        <input type="number" className="grow"
+                        <input type="number" className="grow min-w-10"
                             value={mrp.lotSize.toString() || 0}
                             onChange={(e) => {
                                 const newMrp = JSON.parse(JSON.stringify(mrp));
