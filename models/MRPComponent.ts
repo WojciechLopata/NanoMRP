@@ -7,6 +7,7 @@ class MRPComponent {
     lotSize: number;
     onHand: number;
     mrpPeriods: MRPPeriod[];
+    numberOfPeriods: number;
     children: MRPComponent[];
 
     /**
@@ -25,9 +26,11 @@ class MRPComponent {
         leadTime = 0,
         lotSize = 0,
         onHand = 0,
+        numberOfPeriods=7,
         mrpPeriods = <MRPPeriod[]>[],
         children = <MRPComponent[]>[]
     ) {
+        this.numberOfPeriods =numberOfPeriods;
         this.name = name;
         this.quantity = quantity;
         this.leadTime = leadTime;

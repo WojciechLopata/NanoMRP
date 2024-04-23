@@ -3,20 +3,36 @@
 import {ChangeEvent, useState} from "react";
 import MasterProductionSchedule from "@/components/MasterProductionSchedule";
 import Plan from "@/models/plan";
-import recalculate from "@/lib/recalculate";
+import recalculate, { recalculateComponent } from "@/lib/recalculate";
 import MPSPeriod from "@/models/MPSPeriod";
+import MRPComponent from "@/models/MRPComponent";
+import MRPStuff from "@/components/mrp";
+import MRPPeriod from "@/models/MRPPeriod";
 
 export default function Home() {
 
     // Default number of periods in the Master Production Schedule and all the components
     const DEFAULT_NUMBER_OF_PERIODS = 7;
-
-    const [mrp, setMrp] = useState(new Plan(
+    console.log("home")
+    const initialComponents = Array(DEFAULT_NUMBER_OF_PERIODS).fill(
+        new MRPComponent(
+          "pałąk",
+          10,
+          3,
+          5,
+          2,
+          DEFAULT_NUMBER_OF_PERIODS,
+          Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+          []
+        )
+      );
+      
+      const [mrp, setMrp] = useState(new Plan(
         DEFAULT_NUMBER_OF_PERIODS,
         0,
         Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MPSPeriod()),
-        []
-    ));
+        initialComponents
+      ));
 
     const handleNumberOfPeriodsChange = (e: ChangeEvent<HTMLInputElement>) => {
         // Get the new number of periods
@@ -28,9 +44,16 @@ export default function Home() {
         while (newMrp.mpsPeriods.length < numberOfPeriods) {
             newMrp.mpsPeriods.push(new MPSPeriod());
         }
-
         // Recalculate the plan
         setMrp(recalculate(newMrp));
+
+       // const newcomponent = {... component,numberOfPeriods: numberOfPeriods};
+                
+    }
+
+    function setComponent(component: MRPComponent): void {
+        console.log("Set component function debug")
+        throw new Error("Function not implemented.");
     }
 
     return (
@@ -80,12 +103,51 @@ export default function Home() {
 
                     </label>
                 </div>
+               
                 <div className="overflow-x-auto">
                     <MasterProductionSchedule
                         mrp={mrp}
                         setMrp={setMrp}
                     />
                 </div>
+            </section>
+            <section>
+            
+            <div className="flex gap-5">
+                    
+                    <label
+                        className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
+                        On hand
+                        <input type="number" className="grow min-w-10"
+                            value={mrp.mrpComponents[0].onHand.toString() || 0}
+                            onChange={(e) => {
+                                const newMrp = JSON.parse(JSON.stringify(mrp));
+                                mrp.mrpComponents[0].onHand = parseInt(e.target.value) || 0;
+                                setMrp(recalculate(newMrp));
+                            }}
+                        />
+                    </label>
+                    <label
+                        className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
+                        Lot size
+                        <input type="number" className="grow min-w-10"
+                            value={mrp.mrpComponents[0].lotSize.toString() || 0}
+                            onChange={(e) => {
+                                const newMrp = JSON.parse(JSON.stringify(mrp));
+                                newMrp.mrpComponents[0].lotSize = parseInt(e.target.value) || 0;
+                                setMrp(recalculate(newMrp));
+                            }}
+                        />
+                    </label>
+                
+                </div>
+                <div>
+                <MRPStuff
+                        component={mrp.mrpComponents[0]}
+                        setComponent={setComponent}
+                    />
+                </div>
+                
             </section>
         </main>
     );

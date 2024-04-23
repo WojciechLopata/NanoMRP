@@ -1,3 +1,4 @@
+import MRPComponent from "@/models/MRPComponent";
 import Plan from "@/models/plan";
 
 function recalculate(mrp: Plan) {
@@ -41,4 +42,11 @@ function recalculate(mrp: Plan) {
     return mrp;
 }
 
+export function recalculateComponent(mrp: MRPComponent) {
+    // Recalculate MPS
+   
+    // TODO: Other recalculations
+
+    return mrp;
+}
 export default recalculate;
