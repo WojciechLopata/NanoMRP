@@ -43,12 +43,13 @@ function recalculate(mrp: Plan) {
 }
 
 export function recalculateComponent(mrp: MRPComponent) {
-    console.log("recalculate componnetn")
-    console.log(mrp)
+
+    
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
+        
         // Recalculate available
         if (index === 0) {
-            MRPPeriod.projectedOnHand = MRPPeriod.projectedOnHand - MRPPeriod.grossRequirements;
+            MRPPeriod.projectedOnHand = mrp.onHand - MRPPeriod.grossRequirements;
         } else {
             MRPPeriod.projectedOnHand = mrp.mrpPeriods[index-1].projectedOnHand - MRPPeriod.grossRequirements;
         }
@@ -56,7 +57,8 @@ export function recalculateComponent(mrp: MRPComponent) {
     //console.log("mrp recalculated")
     //console.log(mrp)
 
-    return mrp;
+   
 })
+return mrp;
 }
 export default recalculate;

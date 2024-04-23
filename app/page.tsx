@@ -1,6 +1,6 @@
 'use client';
 
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, Component, useState} from "react";
 import MasterProductionSchedule from "@/components/MasterProductionSchedule";
 import Plan from "@/models/plan";
 import recalculate, { recalculateComponent } from "@/lib/recalculate";
@@ -13,7 +13,7 @@ export default function Home() {
 
     // Default number of periods in the Master Production Schedule and all the components
     const DEFAULT_NUMBER_OF_PERIODS = 7;
-    console.log("home")
+    
     const [mrp, setMrp] = useState(
         new Plan(
           DEFAULT_NUMBER_OF_PERIODS,
@@ -52,16 +52,18 @@ export default function Home() {
                 
     }
     const handleComponentChange = (newComponent: MRPComponent, index: number) => {
+        console.log("?")
         setMrp((prevMrp) => {
           const updatedComponents = [...prevMrp.mrpComponents];
           updatedComponents[index] = newComponent;
+          console.log("handle component change " ,newComponent)
           return { ...prevMrp, mrpComponents: updatedComponents };
         });
       };
 
     function setComponent(component: MRPComponent): void {
-        console.log("Set component function debug")
-        throw new Error("Function not implemented.");
+     
+        handleComponentChange(component,0)
     }
 
     return (
@@ -133,7 +135,7 @@ export default function Home() {
                                // console.log("value is",mrp.mrpComponents[0])
                                const newComponent = { ...mrp.mrpComponents[0], onHand: parseInt(e.target.value) || 0 };
 
-                                handleComponentChange(newComponent, 0);
+                               setComponent(newComponent)
 
                             }}
                         />
@@ -155,9 +157,9 @@ export default function Home() {
                 </div>
                 <div>
                 <MRPStuff
-            component={mrp.mrpComponents[0]}
-            setComponent={(component) => recalculateComponent(component)}
-          />
+  component={mrp.mrpComponents[0]}
+  setComponent={setComponent}
+/>
                 </div>
                 
             </section>

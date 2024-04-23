@@ -25,7 +25,7 @@ export default function MRPStuff(props: {
                 <th>Gross Requirements</th>
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
-                        <input type="number"
+                        <input type="text"
                                className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.grossRequirements ? "opacity-50" : ""} focus:opacity-100`}
                                value={mrpPeriods.grossRequirements.toString() || 0}
                                onChange={(e) => {
@@ -33,6 +33,7 @@ export default function MRPStuff(props: {
                                 newcomponent.mrpPeriods[index].grossRequirements = parseInt(e.target.value) || 0;
                                 console.log(newcomponent)
                                 setComponent(recalculateComponent(newcomponent));
+                               /// console.log(component)
                             }}
                         />
                     </td>
