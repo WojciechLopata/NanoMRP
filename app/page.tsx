@@ -25,7 +25,7 @@ export default function Home() {
               10,
               3,
               5,
-              2,
+              0 ,
               DEFAULT_NUMBER_OF_PERIODS,
               Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
               []
@@ -135,7 +135,7 @@ export default function Home() {
                                // console.log("value is",mrp.mrpComponents[0])
                                const newComponent = { ...mrp.mrpComponents[0], onHand: parseInt(e.target.value) || 0 };
 
-                               setComponent(newComponent)
+                               setComponent(recalculateComponent(newComponent))
 
                             }}
                         />
