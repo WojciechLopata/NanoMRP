@@ -14,42 +14,50 @@ export default function Home() {
     // Default number of periods in the Master Production Schedule and all the components
     const DEFAULT_NUMBER_OF_PERIODS = 7;
     console.log("home")
-    const initialComponents = Array(DEFAULT_NUMBER_OF_PERIODS).fill(
-        new MRPComponent(
-          "pałąk",
-          10,
-          3,
-          5,
-          2,
+    const [mrp, setMrp] = useState(
+        new Plan(
           DEFAULT_NUMBER_OF_PERIODS,
-          Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
-          []
+          0,
+          Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MPSPeriod()),
+          Array(DEFAULT_NUMBER_OF_PERIODS).fill(
+            new MRPComponent(
+              "pałąk",
+              10,
+              3,
+              5,
+              2,
+              DEFAULT_NUMBER_OF_PERIODS,
+              Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+              []
+            )
+          )
         )
       );
-      
-      const [mrp, setMrp] = useState(new Plan(
-        DEFAULT_NUMBER_OF_PERIODS,
-        0,
-        Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MPSPeriod()),
-        initialComponents
-      ));
-
     const handleNumberOfPeriodsChange = (e: ChangeEvent<HTMLInputElement>) => {
         // Get the new number of periods
         const numberOfPeriods = parseInt(e.target.value) || 0;
 
         // Update the number of periods
         const newMrp = {...mrp, numberOfPeriods: numberOfPeriods};
+        const newTestComponent = {...mrp.mrpComponents[0],numberOfPeriods:numberOfPeriods}
         newMrp.mpsPeriods = newMrp.mpsPeriods.slice(0, numberOfPeriods);
         while (newMrp.mpsPeriods.length < numberOfPeriods) {
             newMrp.mpsPeriods.push(new MPSPeriod());
         }
+    
         // Recalculate the plan
         setMrp(recalculate(newMrp));
 
        // const newcomponent = {... component,numberOfPeriods: numberOfPeriods};
                 
     }
+    const handleComponentChange = (newComponent: MRPComponent, index: number) => {
+        setMrp((prevMrp) => {
+          const updatedComponents = [...prevMrp.mrpComponents];
+          updatedComponents[index] = newComponent;
+          return { ...prevMrp, mrpComponents: updatedComponents };
+        });
+      };
 
     function setComponent(component: MRPComponent): void {
         console.log("Set component function debug")
@@ -120,10 +128,13 @@ export default function Home() {
                         On hand
                         <input type="number" className="grow min-w-10"
                             value={mrp.mrpComponents[0].onHand.toString() || 0}
+                            
                             onChange={(e) => {
-                                const newMrp = JSON.parse(JSON.stringify(mrp));
-                                mrp.mrpComponents[0].onHand = parseInt(e.target.value) || 0;
-                                setMrp(recalculate(newMrp));
+                               // console.log("value is",mrp.mrpComponents[0])
+                               const newComponent = { ...mrp.mrpComponents[0], onHand: parseInt(e.target.value) || 0 };
+
+                                handleComponentChange(newComponent, 0);
+
                             }}
                         />
                     </label>
@@ -133,9 +144,10 @@ export default function Home() {
                         <input type="number" className="grow min-w-10"
                             value={mrp.mrpComponents[0].lotSize.toString() || 0}
                             onChange={(e) => {
-                                const newMrp = JSON.parse(JSON.stringify(mrp));
-                                newMrp.mrpComponents[0].lotSize = parseInt(e.target.value) || 0;
-                                setMrp(recalculate(newMrp));
+                                const newComponent = { ...mrp.mrpComponents[0], lotSize: parseInt(e.target.value) || 0 };
+
+                                handleComponentChange(newComponent, 0);
+
                             }}
                         />
                     </label>
@@ -143,9 +155,9 @@ export default function Home() {
                 </div>
                 <div>
                 <MRPStuff
-                        component={mrp.mrpComponents[0]}
-                        setComponent={setComponent}
-                    />
+            component={mrp.mrpComponents[0]}
+            setComponent={(component) => recalculateComponent(component)}
+          />
                 </div>
                 
             </section>

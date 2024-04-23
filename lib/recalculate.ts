@@ -43,10 +43,20 @@ function recalculate(mrp: Plan) {
 }
 
 export function recalculateComponent(mrp: MRPComponent) {
-    // Recalculate MPS
-   
-    // TODO: Other recalculations
+    console.log("recalculate componnetn")
+    console.log(mrp)
+    mrp.mrpPeriods.forEach((MRPPeriod, index) => {
+        // Recalculate available
+        if (index === 0) {
+            MRPPeriod.projectedOnHand = MRPPeriod.projectedOnHand - MRPPeriod.grossRequirements;
+        } else {
+            MRPPeriod.projectedOnHand = mrp.mrpPeriods[index-1].projectedOnHand - MRPPeriod.grossRequirements;
+        }
+
+    //console.log("mrp recalculated")
+    //console.log(mrp)
 
     return mrp;
+})
 }
 export default recalculate;

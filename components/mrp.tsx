@@ -11,7 +11,7 @@ export default function MRPStuff(props: {
     const {component, setComponent} = props;
 
     return (
-        console.log("test"),
+       
         <table className="table table-pin-cols">
         
             <tbody>
@@ -30,7 +30,8 @@ export default function MRPStuff(props: {
                                value={mrpPeriods.grossRequirements.toString() || 0}
                                onChange={(e) => {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
-                                newcomponent.mrpPeriodss[index].projectedDemand = parseInt(e.target.value) || 0;
+                                newcomponent.mrpPeriods[index].grossRequirements = parseInt(e.target.value) || 0;
+                                console.log(newcomponent)
                                 setComponent(recalculateComponent(newcomponent));
                             }}
                         />
@@ -46,8 +47,8 @@ export default function MRPStuff(props: {
                                value={mrpPeriods.scheduledReceipts.toString() || 0}
                                onChange={(e) => {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
-                                newcomponent.mrpPeriods[index].production = parseInt(e.target.value) || 0;
-                                console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].production)
+                                newcomponent.mrpPeriods[index].scheduledReceipts = parseInt(e.target.value) || 0;
+                                console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].scheduledReceipts)
                                 setComponent(recalculateComponent(newcomponent));
                             }}
                                
