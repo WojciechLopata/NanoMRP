@@ -76,7 +76,12 @@ export default function MRPStuff(props: {
                         <input type="text"
                                className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.netRequirements ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
                                value={mrpPeriods.netRequirements.toString() || 0}
-                               readOnly={true}
+                               onChange={(e) => {
+                                const newcomponent = JSON.parse(JSON.stringify(component));
+                                newcomponent.mrpPeriods[index].netRequirements = parseInt(e.target.value) || 0;
+                                console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].netRequirements)
+                                setComponent(recalculateComponent(newcomponent));
+                            }}
                         />
                     </td>
                 ))}
@@ -89,6 +94,12 @@ export default function MRPStuff(props: {
                                className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReleases ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
                                value={mrpPeriods.plannedOrderReleases.toString() || 0}
                                readOnly={true}
+                               onChange={(e) => {
+                                const newcomponent = JSON.parse(JSON.stringify(component));
+                                newcomponent.mrpPeriods[index].plannedOrderReleases = parseInt(e.target.value) || 0;
+                                console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].plannedOrderReleases)
+                                setComponent(recalculateComponent(newcomponent));
+                            }}
                         />
                     </td>
                 ))}
@@ -101,6 +112,12 @@ export default function MRPStuff(props: {
                                className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReceipts ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
                                value={mrpPeriods.plannedOrderReceipts.toString() || 0}
                                readOnly={true}
+                               onChange={(e) => {
+                                const newcomponent = JSON.parse(JSON.stringify(component));
+                                newcomponent.mrpPeriods[index].plannedOrderReceipts = parseInt(e.target.value) || 0;
+                                console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].plannedOrderReceipts)
+                                setComponent(recalculateComponent(newcomponent));
+                            }}
                         />
                     </td>
                 ))}

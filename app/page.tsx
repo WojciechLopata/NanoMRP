@@ -13,24 +13,56 @@ export default function Home() {
 
     // Default number of periods in the Master Production Schedule and all the components
     const DEFAULT_NUMBER_OF_PERIODS = 7;
+    const components: MRPComponent[] = [
+        new MRPComponent(
+            "pałąk",
+            10,
+            3,
+            5,
+            0,
+            DEFAULT_NUMBER_OF_PERIODS,
+            Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+            []
+        ),
+        new MRPComponent(
+            "nausznik",
+            5,
+            3,
+            5,
+            0,
+            DEFAULT_NUMBER_OF_PERIODS,
+            Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+            [new MRPComponent(
+                "Głośnik",
+                5,
+                3,
+                5,
+                0,
+                DEFAULT_NUMBER_OF_PERIODS,
+                Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+                []
+            ),new MRPComponent(
+                "gąbka",
+                5,
+                3,
+                5,
+                0,
+                DEFAULT_NUMBER_OF_PERIODS,
+                Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+                []
+            )]
+        )
+    ];
     
     const [mrp, setMrp] = useState(
         new Plan(
           DEFAULT_NUMBER_OF_PERIODS,
           0,
           Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MPSPeriod()),
-          Array(DEFAULT_NUMBER_OF_PERIODS).fill(
-            new MRPComponent(
-              "pałąk",
-              10,
-              3,
-              5,
-              0 ,
-              DEFAULT_NUMBER_OF_PERIODS,
-              Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
-              []
-            )
-          )
+          components
+         
+            
+        
         )
       );
     const handleNumberOfPeriodsChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -122,45 +154,58 @@ export default function Home() {
                 </div>
             </section>
             <section>
-            
-            <div className="flex gap-5">
+                {mrp.mrpComponents.map((component, index) => (
+                    <div key={index}>
+                        <h2>{component.name}</h2>
+                        <div className="flex gap-5">
+                            <label className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
+                                On hand
+                                <input
+                                    type="number"
+                                    className="grow min-w-10"
+                                    value={component.onHand.toString() || 0}
+                                    onChange={(e) => {
+                                        const newComponent = { ...component, onHand: parseInt(e.target.value) || 0 };
+                                        handleComponentChange(newComponent, index);
+                                    }}
+                                />
+                            </label>
+                            <label className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
+                                Lot size
+                                <input
+                                    type="number"
+                                    className="grow min-w-10"
+                                    value={component.lotSize.toString() || 0}
+                                    onChange={(e) => {
+                                        const newComponent = { ...component, lotSize: parseInt(e.target.value) || 0 };
+                                        handleComponentChange(newComponent, index);
+                                    }}
+                                />
+                            </label>
+                            <label className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
+                                Realization time
+                                <input
+                                    type="number"
+                                    className="grow min-w-10"
+                                    value={component.leadTime.toString() || 0}
+                                    onChange={(e) => {
+                                        const newComponent = { ...component, leadTime: parseInt(e.target.value) || 0 };
+                                        handleComponentChange(newComponent, index);
+                                    }}
+                                />
+                            </label>
+                        </div>
+                        <MRPStuff component={component} setComponent={setComponent} />
+
+                    </div>
+                   
                     
-                    <label
-                        className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
-                        On hand
-                        <input type="number" className="grow min-w-10"
-                            value={mrp.mrpComponents[0].onHand.toString() || 0}
-                            
-                            onChange={(e) => {
-                               // console.log("value is",mrp.mrpComponents[0])
-                               const newComponent = { ...mrp.mrpComponents[0], onHand: parseInt(e.target.value) || 0 };
+                    
+                )
 
-                               setComponent(recalculateComponent(newComponent))
-
-                            }}
-                        />
-                    </label>
-                    <label
-                        className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
-                        Lot size
-                        <input type="number" className="grow min-w-10"
-                            value={mrp.mrpComponents[0].lotSize.toString() || 0}
-                            onChange={(e) => {
-                                const newComponent = { ...mrp.mrpComponents[0], lotSize: parseInt(e.target.value) || 0 };
-
-                                handleComponentChange(newComponent, 0);
-
-                            }}
-                        />
-                    </label>
+            )
                 
-                </div>
-                <div>
-                <MRPStuff
-  component={mrp.mrpComponents[0]}
-  setComponent={setComponent}
-/>
-                </div>
+                }
                 
             </section>
         </main>
