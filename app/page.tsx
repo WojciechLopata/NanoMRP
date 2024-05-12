@@ -194,8 +194,15 @@ export default function Home() {
                                     }}
                                 />
                             </label>
+                          
                         </div>
                         <MRPStuff component={component} setComponent={setComponent} />
+                        {component.children.map((component_child,index)=>(
+                                <div key="index">
+                                    <br></br>
+                                <a>{component_child.name}</a>
+                                </div>
+                            ))}
 
                     </div>
                    
