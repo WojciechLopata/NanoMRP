@@ -197,7 +197,7 @@ export default function Home() {
                 </section>
                 <section>
                     {mrp.mrpComponents.map((component, index) => (
-                        <div key={index}>
+                        <div key={component.name}>
                             <h2 className="pt-5 pb-10 text-2xl font-bold ">{component.name}</h2>
                             <div className="flex gap-5">
                                 <label className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
@@ -241,7 +241,7 @@ export default function Home() {
 
                             <MRPStuff component={component} componentIndex={index} setComponent={(component, index) => setComponent(component, index)} /> 
                             {component.children.map((childComponent,childIndex)=>(
-                                    <div key="index" className="py-10">
+                                    <div key={childComponent.name} className="py-10">
                                         <h3 className="pt-5 pb-10 text-2xl font-bold ">{childComponent.name}</h3>
                                         <div>
                                         <MRPStuff component={childComponent} componentIndex={index} childIndex={childIndex} setComponent={(component, index, childIndex) => setComponent(component, index, childIndex)} />
