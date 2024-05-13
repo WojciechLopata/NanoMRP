@@ -6,7 +6,7 @@ import MRPPeriod from "@/models/MRPPeriod";
 export default function MRPStuff(props: {
     component: MRPComponent,
     
-    setComponent: (component: MRPComponent) => void
+    setComponent: (component: MRPComponent,index) => void
 }) {
     const {component, setComponent} = props;
 
@@ -32,7 +32,7 @@ export default function MRPStuff(props: {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
                                 newcomponent.mrpPeriods[index].grossRequirements = parseInt(e.target.value) || 0;
                                 console.log(newcomponent)
-                                setComponent(recalculateComponent(newcomponent));
+                                setComponent(recalculateComponent(newcomponent),index);
                                /// console.log(component)
                             }}
                         />
@@ -50,7 +50,7 @@ export default function MRPStuff(props: {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
                                 newcomponent.mrpPeriods[index].scheduledReceipts = parseInt(e.target.value) || 0;
                                 console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].scheduledReceipts)
-                                setComponent(recalculateComponent(newcomponent));
+                                setComponent(recalculateComponent(newcomponent),index);
                             }}
                                
                         />
@@ -67,7 +67,7 @@ export default function MRPStuff(props: {
                onChange={(e) => {
                     const newcomponent = JSON.parse(JSON.stringify(component));
                     newcomponent.mrpPeriods[index].projectedOnHand = parseInt(e.target.value) || 0;
-                    setComponent(recalculateComponent(newcomponent));
+                    setComponent(recalculateComponent(newcomponent),index);
                 }}
         />
     </td>
@@ -81,11 +81,11 @@ export default function MRPStuff(props: {
                                className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.netRequirements ? "opacity-50" : ""} focus:opacity-100 `}
                                value={mrpPeriods.netRequirements.toString() || 0}
                                onChange={(e) => {
-                                const newcomponent = JSON.parse(JSON.stringify(component));
-                                newcomponent.mrpPeriods[index].netRequirements = parseInt(e.target.value) || 0;
-                                console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].netRequirements)
-                                setComponent(recalculateComponent(newcomponent));
-                            }}
+                                    const newcomponent = JSON.parse(JSON.stringify(component));
+                                    newcomponent.mrpPeriods[index].netRequirements = parseInt(e.target.value) || 0;
+                                    console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].netRequirements)
+                                    setComponent(recalculateComponent(newcomponent), index);
+                                }}
                         />
                     </td>
                 ))}
@@ -102,7 +102,7 @@ export default function MRPStuff(props: {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
                                 newcomponent.mrpPeriods[index].plannedOrderReleases = parseInt(e.target.value) || 0;
                                 console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].plannedOrderReleases)
-                                setComponent(recalculateComponent(newcomponent));
+                                setComponent(recalculateComponent(newcomponent),index);
                             }}
                         />
                     </td>
@@ -120,7 +120,7 @@ export default function MRPStuff(props: {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
                                 newcomponent.mrpPeriods[index].plannedOrderReceipts = parseInt(e.target.value) || 0;
                                 console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].plannedOrderReceipts)
-                                setComponent(recalculateComponent(newcomponent));
+                                setComponent(recalculateComponent(newcomponent),index);
                             }}
                         />
                     </td>

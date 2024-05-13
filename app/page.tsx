@@ -21,7 +21,7 @@ export default function Home() {
             40,
             0,
             DEFAULT_NUMBER_OF_PERIODS,
-            Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+            Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
             []
         ),
         new MRPComponent(
@@ -31,7 +31,7 @@ export default function Home() {
             120,
             0,
             DEFAULT_NUMBER_OF_PERIODS,
-            Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+            Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
             [new MRPComponent(
                 "Głośnik",
                 5,
@@ -39,7 +39,7 @@ export default function Home() {
                 5,
                 0,
                 DEFAULT_NUMBER_OF_PERIODS,
-                Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+                Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
                 []
             ),new MRPComponent(
                 "Gąbka",
@@ -48,7 +48,7 @@ export default function Home() {
                 5,
                 0,
                 DEFAULT_NUMBER_OF_PERIODS,
-                Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
+                Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
                 []
             )]
         )
@@ -85,6 +85,7 @@ export default function Home() {
     }
     const handleComponentChange = (newComponent, index) => {
         // Create a new copy of the mrp state
+        console.log("index to "+index)
         const newMrp = JSON.parse(JSON.stringify(mrp));
     
         // Replace the component at the given index with the new component
@@ -96,9 +97,9 @@ export default function Home() {
         // Set the new MRP state
         setMrp(newMrp);
     };
-    function setComponent(component: MRPComponent): void {
+    function setComponent(component: MRPComponent,index): void {
      
-        handleComponentChange(component,0)
+        handleComponentChange(component,index)
     }
 
     return (
@@ -205,8 +206,8 @@ export default function Home() {
                             
                             </div>
                             <MRPStuff component={component} setComponent={setComponent} />
-                            {component.children.map((component_child,index)=>(
-                                    <div key="index" className="py-10">
+                            {component.children.map((component_child,child_index)=>(
+                                    <div key="child_index" className="py-10">
                                         <h3 className="pt-5 pb-10 text-2xl font-bold text-white">{component_child.name}</h3>
                                         <div>
                                             <a>MIEJSCE NA TABELKE</a>
