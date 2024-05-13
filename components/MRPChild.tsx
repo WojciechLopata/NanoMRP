@@ -11,15 +11,14 @@ export default function MRPChild(props: {
 
     return (
         <>
-            <h2 className="pt-5 pb-10 text-2xl font-bold">{component.name}</h2>
+            <h2 className="text-2xl font-bold">{component.name}</h2>
             <MRPConfig component={component} recalculatePlanByComponent={recalculatePlanByComponent}/>
             <MRPTable component={component} componentIndex={componentIndex} recalculatePlanByComponent={recalculatePlanByComponent}/>
-            <div className={"ml-10"}>
+            <div className="ml-10 mt-10">
                 {component.children.map((component_child, index) => (
                     <MRPChild component={component_child} componentIndex={index} recalculatePlanByComponent={recalculatePlanByComponent} key={component_child.name + index.toString()}/>
                 ))}
             </div>
-
         </>
     );
 }
