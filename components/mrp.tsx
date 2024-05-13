@@ -5,10 +5,11 @@ import MRPPeriod from "@/models/MRPPeriod";
 
 export default function MRPStuff(props: {
     component: MRPComponent,
-    
-    setComponent: (component: MRPComponent,index) => void
+    componentIndex: number,
+    setComponent: (component: MRPComponent,componentIndex) => void
 }) {
-    const {component, setComponent} = props;
+    const {component, setComponent, componentIndex} = props;
+  
 
     return (
        
@@ -32,7 +33,7 @@ export default function MRPStuff(props: {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
                                 newcomponent.mrpPeriods[index].grossRequirements = parseInt(e.target.value) || 0;
                                 console.log(newcomponent)
-                                setComponent(recalculateComponent(newcomponent),index);
+                                setComponent(recalculateComponent(newcomponent),componentIndex);
                                /// console.log(component)
                             }}
                         />
@@ -50,7 +51,7 @@ export default function MRPStuff(props: {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
                                 newcomponent.mrpPeriods[index].scheduledReceipts = parseInt(e.target.value) || 0;
                                 console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].scheduledReceipts)
-                                setComponent(recalculateComponent(newcomponent),index);
+                                setComponent(recalculateComponent(newcomponent),componentIndex);
                             }}
                                
                         />
@@ -67,7 +68,7 @@ export default function MRPStuff(props: {
                onChange={(e) => {
                     const newcomponent = JSON.parse(JSON.stringify(component));
                     newcomponent.mrpPeriods[index].projectedOnHand = parseInt(e.target.value) || 0;
-                    setComponent(recalculateComponent(newcomponent),index);
+                    setComponent(recalculateComponent(newcomponent),componentIndex);
                 }}
         />
     </td>
@@ -84,7 +85,7 @@ export default function MRPStuff(props: {
                                     const newcomponent = JSON.parse(JSON.stringify(component));
                                     newcomponent.mrpPeriods[index].netRequirements = parseInt(e.target.value) || 0;
                                     console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].netRequirements)
-                                    setComponent(recalculateComponent(newcomponent), index);
+                                    setComponent(recalculateComponent(newcomponent), componentIndex);
                                 }}
                         />
                     </td>
@@ -102,7 +103,7 @@ export default function MRPStuff(props: {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
                                 newcomponent.mrpPeriods[index].plannedOrderReleases = parseInt(e.target.value) || 0;
                                 console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].plannedOrderReleases)
-                                setComponent(recalculateComponent(newcomponent),index);
+                                setComponent(recalculateComponent(newcomponent),componentIndex);
                             }}
                         />
                     </td>
@@ -120,7 +121,7 @@ export default function MRPStuff(props: {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
                                 newcomponent.mrpPeriods[index].plannedOrderReceipts = parseInt(e.target.value) || 0;
                                 console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].plannedOrderReceipts)
-                                setComponent(recalculateComponent(newcomponent),index);
+                                setComponent(recalculateComponent(newcomponent),componentIndex);
                             }}
                         />
                     </td>

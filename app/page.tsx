@@ -10,6 +10,7 @@ import MRPStuff from "@/components/mrp";
 import MRPPeriod from "@/models/MRPPeriod";
 
 export default function Home() {
+    const [componentIndex, setComponentIndex] = useState(null);
 
     // Default number of periods in the Master Production Schedule and all the components
     const DEFAULT_NUMBER_OF_PERIODS = 7;
@@ -86,6 +87,7 @@ export default function Home() {
     const handleComponentChange = (newComponent, index) => {
         setMrp((currentMrp) => {
             console.log("index is "+index)
+            setComponentIndex(index);
             // Create a new copy of the mrp state
             const newMrp = JSON.parse(JSON.stringify(currentMrp));
     
@@ -207,9 +209,8 @@ export default function Home() {
                                 </label>
                             
                             </div>
-                            <MRPStuff component={component} setComponent={(component, index) => setComponent(component, index)} />
-                          
-                            </div>
+
+                            <MRPStuff component={component} componentIndex={index} setComponent={(component, index) => setComponent(component, index)} />                            </div>
                             ))}      
                 </section>
             </main>
