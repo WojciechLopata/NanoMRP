@@ -60,21 +60,25 @@ export default function MRPStuff(props: {
             <tr>
                 <th>projectedOnHand</th>
                 {component.mrpPeriods.map((mrpPeriods, index) => (
-                    <td key={index}>
-                        <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.projectedOnHand ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
-                               value={mrpPeriods.projectedOnHand.toString() || 0}
-                               readOnly={true}
-                        />
-                    </td>
-                ))}
+    <td key={index}>
+        <input type="text"
+               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.projectedOnHand ? "opacity-50" : ""} focus:opacity-100`}
+               value={mrpPeriods.projectedOnHand.toString() || 0}
+               onChange={(e) => {
+                    const newcomponent = JSON.parse(JSON.stringify(component));
+                    newcomponent.mrpPeriods[index].projectedOnHand = parseInt(e.target.value) || 0;
+                    setComponent(recalculateComponent(newcomponent));
+                }}
+        />
+    </td>
+))}
             </tr>
             <tr>
                 <th>netRequirements</th>
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.netRequirements ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
+                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.netRequirements ? "opacity-50" : ""} focus:opacity-100 `}
                                value={mrpPeriods.netRequirements.toString() || 0}
                                onChange={(e) => {
                                 const newcomponent = JSON.parse(JSON.stringify(component));
@@ -91,7 +95,7 @@ export default function MRPStuff(props: {
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReleases ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
+                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReleases ? "opacity-50" : ""} focus:opacity-100 `}
                                value={mrpPeriods.plannedOrderReleases.toString() || 0}
                                readOnly={true}
                                onChange={(e) => {
@@ -109,7 +113,7 @@ export default function MRPStuff(props: {
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReceipts ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
+                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReceipts ? "opacity-50" : ""} focus:opacity-100 `}
                                value={mrpPeriods.plannedOrderReceipts.toString() || 0}
                                readOnly={true}
                                onChange={(e) => {

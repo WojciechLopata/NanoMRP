@@ -83,16 +83,19 @@ export default function Home() {
        // const newcomponent = {... component,numberOfPeriods: numberOfPeriods};
                 
     }
-    const handleComponentChange = (newComponent: MRPComponent, index: number) => {
-        console.log("?")
-        setMrp((prevMrp) => {
-          const updatedComponents = [...prevMrp.mrpComponents];
-          updatedComponents[index] = newComponent;
-          console.log("handle component change " ,newComponent)
-          return { ...prevMrp, mrpComponents: updatedComponents };
-        });
-      };
-
+    const handleComponentChange = (newComponent, index) => {
+        // Create a new copy of the mrp state
+        const newMrp = JSON.parse(JSON.stringify(mrp));
+    
+        // Replace the component at the given index with the new component
+        newMrp.mrpComponents[index] = newComponent;
+    
+        // Recalculate the MRP values for the new component
+        newMrp.mrpComponents[index] = recalculateComponent(newMrp.mrpComponents[index]);
+    
+        // Set the new MRP state
+        setMrp(newMrp);
+    };
     function setComponent(component: MRPComponent): void {
      
         handleComponentChange(component,0)

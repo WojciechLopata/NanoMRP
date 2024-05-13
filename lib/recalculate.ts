@@ -43,6 +43,7 @@ function recalculate(mrp: Plan) {
 }
 
 export function recalculateComponent(mrp: MRPComponent) {
+    console.log(mrp)
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
         // Recalculate available
         if (index === 0) {
