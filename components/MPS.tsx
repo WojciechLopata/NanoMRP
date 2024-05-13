@@ -1,7 +1,7 @@
 import Plan from "@/models/plan";
 import MPSTable from "@/components/MPSTable";
 import MPSConfig from "@/components/MPSConfig";
-import MPSChildren from "@/components/MPSChildren";
+import MRP from "@/components/MRP";
 
 export default function MPS(props: {
     plan: Plan,
@@ -13,7 +13,7 @@ export default function MPS(props: {
         <>
             <MPSConfig plan={plan} setPlan={setPlan}/>
             <MPSTable plan={plan} setPlan={setPlan}/>
-            <MPSChildren plan={plan} setPlan={setPlan}/>
+            <MRP plan={plan} setPlan={setPlan}/>
         </>
     );
 }

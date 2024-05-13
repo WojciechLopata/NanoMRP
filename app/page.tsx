@@ -85,7 +85,7 @@ export default function Home() {
     return (
         <div>
             <div className="pt-10 mx-20 ">
-                <h1 className="text-3xl font-bold text-white">NanoMRP</h1>
+                <h1 className="text-3xl font-bold ">NanoMRP</h1>
             </div>
             <main className="p-10">
                 <section className="flex flex-col gap-5">

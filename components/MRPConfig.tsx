@@ -1,11 +1,11 @@
 import Plan from "@/models/plan";
 import MPSTable from "@/components/MPSTable";
 import MPSConfig from "@/components/MPSConfig";
-import MPSChildren from "@/components/MPSChildren";
+import MRP from "@/components/MRP";
 import MRPComponent from "@/models/MRPComponent";
 import {recalculateComponent} from "@/lib/recalculate";
 
-export default function MPSChildrenConfig(props: {
+export default function MRPConfig(props: {
     plan: Plan,
     setPlan: (plan: Plan) => void
     component: MRPComponent,
