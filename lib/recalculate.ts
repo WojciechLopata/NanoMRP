@@ -30,11 +30,10 @@ function recalculate(mrp: Plan) {
             }
         }
     }
-    else{
-
+    else {
         console.log("prod",mpsPeriod.production)
-        mpsPeriod.available = mpsPeriod.production + mpsPeriod.available    }
-
+        mpsPeriod.available = mpsPeriod.production + mpsPeriod.available
+    }
 });
 
     // TODO: Other recalculations
@@ -42,7 +41,7 @@ function recalculate(mrp: Plan) {
     return mrp;
 }
 
-export function recalculateComponent(mrp: MRPComponent) {
+export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts: boolean) {
     console.log(mrp)
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
         // Recalculate available
@@ -53,15 +52,12 @@ export function recalculateComponent(mrp: MRPComponent) {
         }
 
         // Check for scheduled receipts possibilities in the future
-        if(index + 1 < mrp.leadTime) {
+        if(index + 1 < mrp.leadTime && allowAddingReceipts) {
             const futurePeriod = mrp.mrpPeriods[index + 1];
             if(futurePeriod.grossRequirements > MRPPeriod.projectedOnHand) {
                 MRPPeriod.scheduledReceipts = futurePeriod.grossRequirements - MRPPeriod.projectedOnHand;
                 MRPPeriod.projectedOnHand = MRPPeriod.projectedOnHand + MRPPeriod.scheduledReceipts;
             }
-        
-        
-        
         }
         
         

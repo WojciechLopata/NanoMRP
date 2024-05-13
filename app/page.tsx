@@ -89,7 +89,7 @@ export default function Home() {
     }
 
     const recalculatePlanByComponent = (component: MRPComponent) => {
-        component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+        component.mrpPeriods = recalculateComponent(component, plan.allowAddingReceipts).mrpPeriods;
         recalculatePlan(plan);
     }
 
