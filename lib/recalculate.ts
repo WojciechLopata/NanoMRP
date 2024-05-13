@@ -54,10 +54,8 @@ export function recalculateComponent(mrp: MRPComponent) {
 
         // Check for scheduled receipts possibilities in the future
         if(index + 1 < mrp.leadTime) {
-            console.log("test + " +index)
             const futurePeriod = mrp.mrpPeriods[index + 1];
             if(futurePeriod.grossRequirements > MRPPeriod.projectedOnHand) {
-                console.log("wtf "+index)
                 MRPPeriod.scheduledReceipts = futurePeriod.grossRequirements - MRPPeriod.projectedOnHand;
                 MRPPeriod.projectedOnHand = MRPPeriod.projectedOnHand + MRPPeriod.scheduledReceipts;
             }

@@ -84,18 +84,20 @@ export default function Home() {
                 
     }
     const handleComponentChange = (newComponent, index) => {
-        // Create a new copy of the mrp state
-        console.log("index to "+index)
-        const newMrp = JSON.parse(JSON.stringify(mrp));
+        setMrp((currentMrp) => {
+            console.log("index is "+index)
+            // Create a new copy of the mrp state
+            const newMrp = JSON.parse(JSON.stringify(currentMrp));
     
-        // Replace the component at the given index with the new component
-        newMrp.mrpComponents[index] = newComponent;
+            // Replace the component at the given index with the new component
+            newMrp.mrpComponents[index] = newComponent;
     
-        // Recalculate the MRP values for the new component
-        newMrp.mrpComponents[index] = recalculateComponent(newMrp.mrpComponents[index]);
+            // Recalculate the MRP values for the new component
+            newMrp.mrpComponents[index] = recalculateComponent(newMrp.mrpComponents[index]);
     
-        // Set the new MRP state
-        setMrp(newMrp);
+            // Return the new MRP state
+            return newMrp;
+        });
     };
     function setComponent(component: MRPComponent,index): void {
      
@@ -205,15 +207,8 @@ export default function Home() {
                                 </label>
                             
                             </div>
-                            <MRPStuff component={component} setComponent={setComponent} />
-                            {component.children.map((component_child,child_index)=>(
-                                    <div key="child_index" className="py-10">
-                                        <h3 className="pt-5 pb-10 text-2xl font-bold text-white">{component_child.name}</h3>
-                                        <div>
-                                            <a>MIEJSCE NA TABELKE</a>
-                                        </div>
-                                    </div>
-                                ))}
+                            <MRPStuff component={component} setComponent={(component, index) => setComponent(component, index)} />
+                          
                             </div>
                             ))}      
                 </section>
