@@ -10,7 +10,11 @@ export default function MRP(props: {
     return (
         <section>
             {plan.mrpComponents.map((mrpComponent, index) => (
-                <MRPChild component={mrpComponent} componentIndex={index} recalculatePlanByComponent={recalculatePlanByComponent} key={mrpComponent.name + index.toString()}/>
+                <div className="bg-base-300 p-5 rounded-2xl mt-5 sm:mt-10" key={index}>
+                    <MRPChild component={mrpComponent} componentIndex={index}
+                              recalculatePlanByComponent={recalculatePlanByComponent}
+                              key={mrpComponent.name + index.toString()}/>
+                </div>
             ))}
         </section>
     );

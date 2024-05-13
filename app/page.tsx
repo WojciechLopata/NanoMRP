@@ -74,7 +74,6 @@ export default function Home() {
                 )]
         )];
 
-
     const [plan, setPlan] = useState(
         new Plan(
             DEFAULT_NUMBER_OF_PERIODS,
@@ -96,15 +95,11 @@ export default function Home() {
 
     return (
         <div>
-            <Hero />
-            <main className="p-10">
-                <section className="flex flex-col gap-5">
-                    <div className="overflow-x-auto">
-                        <MPS plan={plan} recalculatePlan={recalculatePlan}
-                             recalculatePlanByComponent={recalculatePlanByComponent} componentIndex={componentIndex}
-                             setComponentIndex={setComponentIndex}/>
-                    </div>
-                </section>
+            <Hero/>
+            <main className="p-5 sm:p-10">
+                <MPS plan={plan} recalculatePlan={recalculatePlan}
+                     recalculatePlanByComponent={recalculatePlanByComponent} componentIndex={componentIndex}
+                     setComponentIndex={setComponentIndex}/>
             </main>
         </div>
     );
