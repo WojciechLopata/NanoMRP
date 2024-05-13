@@ -40,7 +40,7 @@ export default function MPS(props: {
                     </th>
                     {plan.mpsPeriods.map((mpsPeriod, index) => (
                         <td key={index}>
-                            <input type="text"
+                            <input type="number"
                                    className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.production ? "opacity-50" : ""} focus:opacity-100 `}
                                    value={mpsPeriod.production.toString() || 0}
                                    onChange={(e) => {
@@ -58,7 +58,7 @@ export default function MPS(props: {
                     </th>
                     {plan.mpsPeriods.map((mpsPeriod, index) => (
                         <td key={index}>
-                            <input type="text"
+                            <input type="number"
                                    className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.available ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
                                    value={mpsPeriod.available.toString() || 0}
                                    readOnly={true}
