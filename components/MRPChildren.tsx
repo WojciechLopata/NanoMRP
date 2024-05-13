@@ -7,7 +7,7 @@ export default function MRPChildren(props: {
     component: MRPComponent,
     componentIndex: number,
     childIndex?: number,
-    setComponent: (component: MRPComponent,componentIndex:number,childIndex?:number) => void
+    setComponent: (component: MRPComponent, componentIndex: number, childIndex?: number) => void
 }) {
     const {component, setComponent, componentIndex} = props;
   

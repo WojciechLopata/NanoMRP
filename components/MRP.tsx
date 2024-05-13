@@ -14,32 +14,26 @@ export default function MRP(props: {
 }) {
     const {plan, setPlan, componentIndex, setComponentIndex} = props;
 
-    const handleComponentChange = (newComponent: MRPComponent, index: string) => {
-        setPlan((currentMrp: any) => {
-            console.log("index is "+index)
-            setComponentIndex(index);
-            // Create a new copy of the mrp state
-            const newMrp = JSON.parse(JSON.stringify(currentMrp));
+    const handleComponentChange = (newComponent: MRPComponent, index: number) => {
+        console.log("index is "+index);
+        setComponentIndex(index);
+        // Create a new copy of the mrp state
+        const newMrp = JSON.parse(JSON.stringify(plan));
 
-            // Replace the component at the given index with the new component
-            newMrp.mrpComponents[index] = newComponent;
+        // Replace the component at the given index with the new component
+        newMrp.mrpComponents[index] = newComponent;
 
-            // Recalculate the MRP values for the new component
-            newMrp.mrpComponents[index] = recalculateComponent(newMrp.mrpComponents[index]);
-
-            // Return the new MRP state
-            return newMrp;
-        });
+        // Recalculate the MRP values for the new component
+        newMrp.mrpComponents[index] = recalculateComponent(newMrp.mrpComponents[index]);
+        setPlan(newMrp);
     };
 
-    function setComponent(component: MRPComponent, index: string, childIndex?: string | number | undefined): void {
+    function setComponent(component: MRPComponent, index: number, childIndex?: number): void {
         if (childIndex !== undefined) {
+            const newMrp = JSON.parse(JSON.stringify(plan));
+            newMrp.mrpComponents[index].children[childIndex] = component;
             // Update child component
-            setPlan((currentMrp) => {
-                const newMrp = JSON.parse(JSON.stringify(currentMrp));
-                newMrp.mrpComponents[index].children[childIndex] = component;
-                return newMrp;
-            });
+            setPlan(newMrp);
         } else {
             // Update component
             handleComponentChange(component, index);
