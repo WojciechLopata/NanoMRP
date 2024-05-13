@@ -1,4 +1,5 @@
 'use client';
+import { saveAs } from 'file-saver';
 
 import {ChangeEvent, Component, useState} from "react";
 import MPS from "@/components/MPS";
@@ -8,6 +9,24 @@ import MRPComponent from "@/models/MRPComponent";
 import MRPPeriod from "@/models/MRPPeriod";
 
 export default function Home() {
+    const handleExport = () => {
+        const json = JSON.stringify(mrp);
+        const blob = new Blob([json], {type: "application/json"});
+        saveAs(blob, 'plan.json');
+      };
+      const handleImport = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const json = e.target.result as string;
+            const plan = JSON.parse(json);
+            setMrp(plan);
+          };
+          reader.readAsText(file);
+        }
+      };
+    
     const [componentIndex, setComponentIndex] = useState(null);
 
     // Default number of periods in the Master Production Schedule and all the components
@@ -81,11 +100,14 @@ export default function Home() {
           components
         )
       );
+     
 
     return (
         <div>
             <div className="pt-10 mx-20 ">
                 <h1 className="text-3xl font-bold ">NanoMRP</h1>
+                <button onClick={handleExport}>Export Plan</button>
+                <input type="file" accept=".json" onChange={handleImport} />
             </div>
             <main className="p-10">
                 <section className="flex flex-col gap-5">
