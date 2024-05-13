@@ -3,19 +3,17 @@ import { recalculateComponent } from "@/lib/recalculate";
 import MRPComponent from "@/models/MRPComponent";
 import MRPPeriod from "@/models/MRPPeriod";
 
-export default function MRPChildren(props: {
+export default function MRPTable(props: {
     component: MRPComponent,
     componentIndex: number,
     childIndex?: number,
     setComponent: (component: MRPComponent, componentIndex: number, childIndex?: number) => void
 }) {
     const {component, setComponent, componentIndex} = props;
-  
+
 
     return (
-       
         <table className="table table-pin-cols my-10">
-        
             <tbody>
             <tr>
                 <th>Week</th>
@@ -54,7 +52,7 @@ export default function MRPChildren(props: {
                                 console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].scheduledReceipts)
                                 props.setComponent(recalculateComponent(newcomponent), props.componentIndex, props.childIndex);
                             }}
-                               
+
                         />
                     </td>
                 ))}
@@ -62,18 +60,18 @@ export default function MRPChildren(props: {
             <tr>
                 <th>projectedOnHand</th>
                 {component.mrpPeriods.map((mrpPeriods, index) => (
-    <td key={index}>
-        <input type="text"
-               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.projectedOnHand ? "opacity-50" : ""} focus:opacity-100`}
-               value={mrpPeriods.projectedOnHand.toString() || 0}
-               onChange={(e) => {
-                    const newcomponent = JSON.parse(JSON.stringify(component));
-                    newcomponent.mrpPeriods[index].projectedOnHand = parseInt(e.target.value) || 0;
-                    props.setComponent(recalculateComponent(newcomponent), props.componentIndex, props.childIndex);
-                }}
-        />
-    </td>
-))}
+                    <td key={index}>
+                        <input type="text"
+                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.projectedOnHand ? "opacity-50" : ""} focus:opacity-100`}
+                               value={mrpPeriods.projectedOnHand.toString() || 0}
+                               onChange={(e) => {
+                                    const newcomponent = JSON.parse(JSON.stringify(component));
+                                    newcomponent.mrpPeriods[index].projectedOnHand = parseInt(e.target.value) || 0;
+                                    props.setComponent(recalculateComponent(newcomponent), props.componentIndex, props.childIndex);
+                                }}
+                        />
+                    </td>
+                ))}
             </tr>
             <tr>
                 <th>netRequirements</th>

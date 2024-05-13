@@ -6,13 +6,11 @@ import MRPComponent from "@/models/MRPComponent";
 import {recalculateComponent} from "@/lib/recalculate";
 
 export default function MRPConfig(props: {
-    plan: Plan,
-    setPlan: (plan: Plan) => void
     component: MRPComponent,
-    handleComponentChange: (newComponent: MRPComponent, index: number) => void
+    setComponent: (newComponent: MRPComponent, index: number) => void
     index: number
 }) {
-    const {plan, setPlan, component, handleComponentChange, index} = props;
+    const {component, setComponent, index} = props;
 
     return (
         <>
@@ -26,7 +24,7 @@ export default function MRPConfig(props: {
                         value={component.onHand.toString() || 0}
                         onChange={(e) => {
                             const newComponent = {...component, onHand: parseInt(e.target.value) || 0};
-                            handleComponentChange(newComponent, index);
+                            setComponent(newComponent, index);
                         }}
                     />
                 </label>
@@ -39,7 +37,7 @@ export default function MRPConfig(props: {
                         value={component.lotSize.toString() || 0}
                         onChange={(e) => {
                             const newComponent = {...component, lotSize: parseInt(e.target.value) || 0};
-                            handleComponentChange(newComponent, index);
+                            setComponent(newComponent, index);
                         }}
                     />
                 </label>
@@ -52,7 +50,7 @@ export default function MRPConfig(props: {
                         value={component.leadTime.toString() || 0}
                         onChange={(e) => {
                             const newComponent = {...component, leadTime: parseInt(e.target.value) || 0};
-                            handleComponentChange(newComponent, index);
+                            setComponent(newComponent, index);
                         }}
                     />
                 </label>

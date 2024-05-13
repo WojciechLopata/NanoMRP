@@ -1,9 +1,9 @@
 import Plan from "@/models/plan";
-import MRPStuff from "@/components/MRPChildren";
+import MRPStuff from "@/components/MRPChild";
 import {recalculateComponent} from "@/lib/recalculate";
 import MRPComponent from "@/models/MRPComponent";
 import MRPConfig from "@/components/MRPConfig";
-import MRPChildren from "@/components/MRPChildren";
+import MRPChild from "@/components/MRPChild";
 import {SetStateAction, useState} from "react";
 
 export default function MRP(props: {
@@ -42,21 +42,9 @@ export default function MRP(props: {
 
     return (
         <section>
-            {plan.mrpComponents.map((component, index) => (
-                <div key={component.name + index.toString()}>
-                    <h2 className="pt-5 pb-10 text-2xl font-bold">{component.name}</h2>
-                    <MRPConfig plan={plan} setPlan={setPlan} component={component} handleComponentChange={handleComponentChange} index={index}/>
-                    <MRPChildren component={component} setComponent={setComponent} componentIndex={index} />
-                    {component.children.map((component_child,index)=>(
-                            <div key={component_child.name} className="py-10">
-                                <h3 className="pt-5 pb-10 text-2xl font-bold ">{component_child.name}</h3>
-                                <div>
-                                    <a>MIEJSCE NA TABELKE</a>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    ))}
+            {plan.mrpComponents.map((mrpComponent, index) => (
+                <MRPChild component={mrpComponent} setComponent={setComponent} componentIndex={index} key={mrpComponent.name + index.toString()}/>
+            ))}
         </section>
     );
 }
