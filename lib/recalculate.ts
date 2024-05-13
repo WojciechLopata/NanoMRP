@@ -12,7 +12,6 @@ function recalculate(mrp: Plan) {
         }
 
         // Recalculate production
-
         if (mrp.automaticMSPCalculations) {
             mpsPeriod.production = 0;
             if (mpsPeriod.available < 0) {
