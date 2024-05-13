@@ -51,10 +51,30 @@ export default function Home() {
                 DEFAULT_NUMBER_OF_PERIODS,
                 Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
                 []
-            )]
-        )
-    ];
-    
+            ),new MRPComponent(
+                "Obudowa",
+                5,
+                3,
+                5,
+                0,
+                DEFAULT_NUMBER_OF_PERIODS,
+                Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
+                [])]
+        ),new MRPComponent(
+            "Kabel Audio",
+            1,
+            2,30,20,DEFAULT_NUMBER_OF_PERIODS,
+            Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
+            [new MRPComponent(
+                "Przewód",
+                1,1,50,10,DEFAULT_NUMBER_OF_PERIODS,Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),[]),
+                new MRPComponent(
+                    "Wtyczka",
+                    2,1,50,10,DEFAULT_NUMBER_OF_PERIODS,Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),[]
+                )]
+            )];
+
+      
     const [mrp, setMrp] = useState(
         new Plan(
           DEFAULT_NUMBER_OF_PERIODS,
@@ -109,7 +129,7 @@ export default function Home() {
     return (
         <div>
             <div className="pt-10 mx-20 ">
-                <h1 className="text-3xl font-bold text-white">NanoMRP</h1>
+                <h1 className="text-3xl font-bold ">NanoMRP</h1>
             </div>
             <main className="p-10 mx-auto mx-20">
                 <section className="flex flex-col gap-5">
@@ -169,7 +189,7 @@ export default function Home() {
                 <section>
                     {mrp.mrpComponents.map((component, index) => (
                         <div key={index}>
-                            <h2 className="pt-5 pb-10 text-2xl font-bold text-white">{component.name}</h2>
+                            <h2 className="pt-5 pb-10 text-2xl font-bold ">{component.name}</h2>
                             <div className="flex gap-5">
                                 <label className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
                                     On hand
@@ -210,7 +230,15 @@ export default function Home() {
                             
                             </div>
 
-                            <MRPStuff component={component} componentIndex={index} setComponent={(component, index) => setComponent(component, index)} />                            </div>
+                            <MRPStuff component={component} componentIndex={index} setComponent={(component, index) => setComponent(component, index)} /> 
+                            {component.children.map((component_child,index)=>(
+                                    <div key="index" className="py-10">
+                                        <h3 className="pt-5 pb-10 text-2xl font-bold ">{component_child.name}</h3>
+                                        <div>
+                                            <a>MIEJSCE NA TABELKE</a>
+                                        </div>
+                                    </div>
+                                ))}                           </div>
                             ))}      
                 </section>
             </main>
