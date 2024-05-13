@@ -121,9 +121,18 @@ export default function Home() {
             return newMrp;
         });
     };
-    function setComponent(component: MRPComponent,index): void {
-     
-        handleComponentChange(component,index)
+    function setComponent(component: MRPComponent, index, childIndex?): void {
+        if (childIndex !== undefined) {
+            // Update child component
+            setMrp((currentMrp) => {
+                const newMrp = JSON.parse(JSON.stringify(currentMrp));
+                newMrp.mrpComponents[index].children[childIndex] = component;
+                return newMrp;
+            });
+        } else {
+            // Update component
+            handleComponentChange(component, index);
+        }
     }
 
     return (
@@ -231,11 +240,12 @@ export default function Home() {
                             </div>
 
                             <MRPStuff component={component} componentIndex={index} setComponent={(component, index) => setComponent(component, index)} /> 
-                            {component.children.map((component_child,index)=>(
+                            {component.children.map((childComponent,childIndex)=>(
                                     <div key="index" className="py-10">
-                                        <h3 className="pt-5 pb-10 text-2xl font-bold ">{component_child.name}</h3>
+                                        <h3 className="pt-5 pb-10 text-2xl font-bold ">{childComponent.name}</h3>
                                         <div>
-                                            <a>MIEJSCE NA TABELKE</a>
+                                        <MRPStuff component={childComponent} componentIndex={index} childIndex={childIndex} setComponent={(component, index, childIndex) => setComponent(component, index, childIndex)} />
+
                                         </div>
                                     </div>
                                 ))}                           </div>
