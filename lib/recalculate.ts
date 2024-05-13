@@ -3,6 +3,7 @@ import Plan from "@/models/plan";
 
 function recalculate(mrp: Plan) {
     // Recalculate MPS
+    componentRequired = []
     mrp.mpsPeriods.forEach((mpsPeriod, index) => {
         // Recalculate available
         if (index === 0) {
@@ -27,19 +28,57 @@ function recalculate(mrp: Plan) {
                     console.log("test")
                 }
             }
-        } else {
-            console.log("prod", mpsPeriod.production)
-            mpsPeriod.available = mpsPeriod.production + mpsPeriod.available
-        }
+        } else{
+
+        
+            mpsPeriod.available = mpsPeriod.production + mpsPeriod.available    }
+            if (mpsPeriod.production === null || mpsPeriod.production == null) {
+                mpsPeriod.production=0
+                // grossRequirements is null
+            }
+            componentRequired[index] = mpsPeriod.production;
+    
     });
-
-    // TODO: Other recalculations
-
-    return mrp;
-}
-
-export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts: boolean) {
+    
+       
+       propagateGrossRequirementsParent(mrp, componentRequired);
+          
+      
+        console.log(mrp)
+        return mrp;
+    }
+    function propagateGrossRequirements(mrp: MRPComponent, periods ) {
+        //console.log(periods)
+        mrp.children.forEach(child => {
+            
+            periods.forEach((period, index) => {
+                if (periods[index] == null) {
+                    periods[index]=0
+                    // grossRequirements is null
+                }
+    
+            child.mrpPeriods[index].grossRequirements = periods[index]*child.quantity;
+            recalculateComponent(child);
+        });
+    })};
+    function propagateGrossRequirementsParent(mrp: Plan, periods ) {
+       // console.log(periods)
+        mrp.mrpComponents.forEach(child => {
+            
+            periods.forEach((period, index) => {
+                console.log("period",period)
+                if (periods[index] == null) {
+                    periods[index]=0
+                    // grossRequirements is null
+                }
+    
+            child.mrpPeriods[index].grossRequirements = periods[index]*child.quantity;
+            recalculateComponent(child);
+        });
+    })};
+export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: boolean) {
     console.log(mrp)
+    componentRequired = []
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
         // Recalculate available
         if (index === 0) {
