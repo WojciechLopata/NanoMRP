@@ -1,6 +1,4 @@
 import Plan from "@/models/plan";
-import MPSTable from "@/components/MPSTable";
-import recalculate from "@/lib/recalculate";
 import {ChangeEvent} from "react";
 import MPSPeriod from "@/models/MPSPeriod";
 
@@ -64,7 +62,7 @@ export default function MPSConfig(props: {
                         type="checkbox"
                         className="toggle"
                         checked={plan.automaticMSPCalculations}
-                        onChange={(e) => {
+                        onChange={() => {
                             plan.automaticMSPCalculations = !plan.automaticMSPCalculations
                             recalculatePlan(plan);
                         }}/>
