@@ -17,7 +17,7 @@ export default function Home() {
     const components: MRPComponent[] = [
         new MRPComponent(
             "Headband",
-            40,
+            1,
             3,
             40,
             0,
@@ -27,7 +27,7 @@ export default function Home() {
         ),
         new MRPComponent(
             "Earcup",
-            40,
+            2,
             2,
             120,
             0,
@@ -35,27 +35,27 @@ export default function Home() {
             Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
             [new MRPComponent(
                 "Speaker",
-                5,
-                3,
-                5,
+                1,
+                2,
+                35,
                 0,
                 DEFAULT_NUMBER_OF_PERIODS,
                 Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
                 []
             ), new MRPComponent(
                 "Foam",
-                5,
-                3,
-                5,
+                1,
+                1,
+                50,
                 0,
                 DEFAULT_NUMBER_OF_PERIODS,
                 Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
                 []
             ), new MRPComponent(
                 "Enclosure",
-                5,
-                3,
-                5,
+                1,
+                1,
+                70,
                 0,
                 DEFAULT_NUMBER_OF_PERIODS,
                 Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
