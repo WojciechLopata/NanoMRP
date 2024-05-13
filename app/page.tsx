@@ -1,6 +1,7 @@
 'use client';
 
-import {useState} from "react";
+import {ChangeEvent, Component, useState} from "react";
+import { saveAs } from 'file-saver';
 import MPS from "@/components/MPS";
 import Plan from "@/models/plan";
 import MPSPeriod from "@/models/MPSPeriod";
@@ -11,6 +12,24 @@ import Hero from "@/components/Hero";
 
 export default function Home() {
     const [componentIndex, setComponentIndex] = useState(null);
+    const handleExport = () => {
+        const json = JSON.stringify(plan);
+        const blob = new Blob([json], {type: "application/json"});
+        saveAs(blob, 'plan.json');
+      };
+      const handleImport = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const json = e.target.result as string;
+            const plan = JSON.parse(json);
+            setPlan(plan);
+          };
+          reader.readAsText(file);
+        }
+      };
+    
 
     // Default number of periods in the Master Production Schedule and all the components
     const DEFAULT_NUMBER_OF_PERIODS = 7;
@@ -97,6 +116,8 @@ export default function Home() {
         <div>
             <Hero/>
             <main className="p-5 sm:p-10">
+            <button onClick={handleExport}>Export Plan</button>
+                <input type="file" accept=".json" onChange={handleImport} />
                 <MPS plan={plan} recalculatePlan={recalculatePlan}
                      recalculatePlanByComponent={recalculatePlanByComponent} componentIndex={componentIndex}
                      setComponentIndex={setComponentIndex}/>
