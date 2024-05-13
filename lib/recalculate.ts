@@ -43,10 +43,7 @@ function recalculate(mrp: Plan) {
 }
 
 export function recalculateComponent(mrp: MRPComponent) {
-
-    
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
-        
         // Recalculate available
         if (index === 0) {
             MRPPeriod.projectedOnHand = mrp.onHand - MRPPeriod.grossRequirements;
@@ -54,11 +51,45 @@ export function recalculateComponent(mrp: MRPComponent) {
             MRPPeriod.projectedOnHand = mrp.mrpPeriods[index-1].projectedOnHand - MRPPeriod.grossRequirements;
         }
 
-    //console.log("mrp recalculated")
-    //console.log(mrp)
+        // Check for scheduled receipts possibilities in the future
+        if(index + 1 < mrp.leadTime) {
+            console.log("test + " +index)
+            const futurePeriod = mrp.mrpPeriods[index + 1];
+            if(futurePeriod.grossRequirements > MRPPeriod.projectedOnHand) {
+                console.log("wtf "+index)
+                MRPPeriod.scheduledReceipts = futurePeriod.grossRequirements - MRPPeriod.projectedOnHand;
+                MRPPeriod.projectedOnHand = MRPPeriod.projectedOnHand + MRPPeriod.scheduledReceipts;
+            }
+        
+        
+        
+        }
+        
+        
+        if (index + mrp.leadTime < mrp.mrpPeriods.length) {
+            const futurePeriod = mrp.mrpPeriods[index + mrp.leadTime];
+        
+            // Sum up all the plannedOrderReceipts from the current week to the week of the grossRequirements
+            const totalPlannedOrderReceipts = mrp.mrpPeriods.slice(index, index + mrp.leadTime).reduce((sum, period) => sum + (period.plannedOrderReceipts || 0), 0);
+        
+            // Check if the projected on hand inventory plus total planned order receipts will be less than the gross requirements
+            if (MRPPeriod.projectedOnHand + totalPlannedOrderReceipts < futurePeriod.grossRequirements) {
+                // Set the planned order releases in the current period
+                MRPPeriod.plannedOrderReleases = mrp.lotSize;
+                futurePeriod.plannedOrderReceipts = MRPPeriod.plannedOrderReleases;
+            }
+        }
+        if (MRPPeriod.projectedOnHand < 0) {
+            MRPPeriod.netRequirements = MRPPeriod.projectedOnHand * -1;
+         
+           
+            if (index > 0) {
+                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index-1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts;
+            }
+        }
+    });
+    
 
-   
-})
-return mrp;
+    return mrp;
 }
 export default recalculate;

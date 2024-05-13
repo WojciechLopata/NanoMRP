@@ -16,9 +16,9 @@ export default function Home() {
     const components: MRPComponent[] = [
         new MRPComponent(
             "Pałąk",
-            10,
+            40,
             3,
-            5,
+            40,
             0,
             DEFAULT_NUMBER_OF_PERIODS,
             Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
@@ -26,9 +26,9 @@ export default function Home() {
         ),
         new MRPComponent(
             "Nausznik",
-            5,
-            3,
-            5,
+            40,
+            2,
+            120,
             0,
             DEFAULT_NUMBER_OF_PERIODS,
             Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MRPPeriod()),
