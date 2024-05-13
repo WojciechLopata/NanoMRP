@@ -27,7 +27,7 @@ export default function MRPTable(props: {
                     </th>
                     {component.mrpPeriods.map((mrpPeriods, index) => (
                         <td key={index}>
-                            <input type="text"
+                            <input type="number"
                                    className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.grossRequirements ? "opacity-50" : ""} focus:opacity-100`}
                                    value={mrpPeriods.grossRequirements.toString() || 0}
                                    onChange={(e) => {
@@ -44,7 +44,7 @@ export default function MRPTable(props: {
                     </th>
                     {component.mrpPeriods.map((mrpPeriods, index) => (
                         <td key={index}>
-                            <input type="text"
+                            <input type="number"
                                    className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.scheduledReceipts ? "opacity-50" : ""} focus:opacity-100 `}
                                    value={mrpPeriods.scheduledReceipts.toString() || 0}
                                    onChange={(e) => {
@@ -61,7 +61,7 @@ export default function MRPTable(props: {
                     </th>
                     {component.mrpPeriods.map((mrpPeriods, index) => (
                         <td key={index}>
-                            <input type="text"
+                            <input type="number"
                                    className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.projectedOnHand ? "opacity-50" : ""} focus:opacity-100`}
                                    value={mrpPeriods.projectedOnHand.toString() || 0}
                                    onChange={(e) => {
@@ -78,7 +78,7 @@ export default function MRPTable(props: {
                     </th>
                     {component.mrpPeriods.map((mrpPeriods, index) => (
                         <td key={index}>
-                            <input type="text"
+                            <input type="number"
                                    className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.netRequirements ? "opacity-50" : ""} focus:opacity-100 `}
                                    value={mrpPeriods.netRequirements.toString() || 0}
                                    onChange={(e) => {
@@ -95,7 +95,7 @@ export default function MRPTable(props: {
                     </th>
                     {component.mrpPeriods.map((mrpPeriods, index) => (
                         <td key={index}>
-                            <input type="text"
+                            <input type="number"
                                    className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReleases ? "opacity-50" : ""} focus:opacity-100 `}
                                    value={mrpPeriods.plannedOrderReleases.toString() || 0}
                                    readOnly={true}
@@ -113,7 +113,7 @@ export default function MRPTable(props: {
                     </th>
                     {component.mrpPeriods.map((mrpPeriods, index) => (
                         <td key={index}>
-                            <input type="text"
+                            <input type="number"
                                    className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReceipts ? "opacity-50" : ""} focus:opacity-100 `}
                                    value={mrpPeriods.plannedOrderReceipts.toString() || 0}
                                    readOnly={true}

@@ -8,7 +8,7 @@ export default function MRPConfig(props: {
 
     return (
         <>
-            <div className="flex gap-5 bg-base-200 p-5 my-5 rounded-xl flex-wrap">
+            <div className="flex gap-5 bg-base-200 p-5 mb-5 rounded-b-xl flex-wrap">
                 <label
                     className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
                     On hand
