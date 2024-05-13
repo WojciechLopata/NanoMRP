@@ -5,17 +5,18 @@ import MRP from "@/components/MRP";
 
 export default function MPS(props: {
     plan: Plan,
-    setPlan: (plan: Plan) => void,
+    recalculatePlan: (plan: Plan) => void,
+    recalculatePlanByComponent: (component: any) => void,
     componentIndex: any,
     setComponentIndex: (index: any) => void
 }) {
-    const {plan, setPlan, componentIndex, setComponentIndex} = props;
+    const {plan, recalculatePlan, recalculatePlanByComponent} = props;
 
     return (
         <>
-            <MPSConfig plan={plan} setPlan={setPlan}/>
-            <MPSTable plan={plan} setPlan={setPlan}/>
-            <MRP plan={plan} setPlan={setPlan} componentIndex={componentIndex} setComponentIndex={setComponentIndex}/>
+            <MPSConfig plan={plan} recalculatePlan={recalculatePlan}/>
+            <MPSTable plan={plan} recalculatePlan={recalculatePlan}/>
+            <MRP plan={plan} recalculatePlanByComponent={recalculatePlanByComponent}/>
         </>
     );
 }

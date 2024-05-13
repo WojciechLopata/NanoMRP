@@ -1,17 +1,10 @@
-import Plan from "@/models/plan";
-import MPSTable from "@/components/MPSTable";
-import MPSConfig from "@/components/MPSConfig";
-import MRP from "@/components/MRP";
 import MRPComponent from "@/models/MRPComponent";
-import recalculate, {recalculateComponent} from "@/lib/recalculate";
 
 export default function MRPConfig(props: {
     component: MRPComponent,
-    index: number,
-    plan: Plan,
-    setPlan: (plan: Plan) => void,
+    recalculatePlanByComponent: (component: any) => void,
 }) {
-    const {component, index, plan, setPlan} = props;
+    const {component, recalculatePlanByComponent} = props;
 
     return (
         <>
@@ -25,9 +18,7 @@ export default function MRPConfig(props: {
                         value={component.onHand.toString() || 0}
                         onChange={(e) => {
                             component.onHand = parseInt(e.target.value) || 0;
-                            component.mrpPeriods = recalculateComponent(component).mrpPeriods;
-                            const newMrp = JSON.parse(JSON.stringify(plan));
-                            setPlan(recalculate(newMrp));
+                            recalculatePlanByComponent(component);
                         }}
                     />
                 </label>
@@ -40,9 +31,7 @@ export default function MRPConfig(props: {
                         value={component.lotSize.toString() || 0}
                         onChange={(e) => {
                             component.lotSize = parseInt(e.target.value) || 0;
-                            component.mrpPeriods = recalculateComponent(component).mrpPeriods;
-                            const newMrp = JSON.parse(JSON.stringify(plan));
-                            setPlan(recalculate(newMrp));
+                            recalculatePlanByComponent(component);
                         }}
                     />
                 </label>
@@ -55,9 +44,7 @@ export default function MRPConfig(props: {
                         value={component.leadTime.toString() || 0}
                         onChange={(e) => {
                             component.leadTime = parseInt(e.target.value) || 0;
-                            component.mrpPeriods = recalculateComponent(component).mrpPeriods;
-                            const newMrp = JSON.parse(JSON.stringify(plan));
-                            setPlan(recalculate(newMrp));
+                            recalculatePlanByComponent(component);
                         }}
                     />
                 </label>

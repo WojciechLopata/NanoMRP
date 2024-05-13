@@ -4,10 +4,9 @@ import recalculate from "@/lib/recalculate";
 
 export default function MPS(props: {
     plan: Plan,
-    setPlan: (plan: Plan) => void
+    recalculatePlan: (plan: Plan) => void
 }) {
-    const {plan, setPlan} = props;
-    console.log("plan", plan);
+    const {plan, recalculatePlan} = props;
 
     return (
         <table className="table table-pin-cols my-10">
@@ -23,12 +22,11 @@ export default function MPS(props: {
                 {plan.mpsPeriods.map((mpsPeriod, index) => (
                     <td key={index}>
                         <input type="number"
-                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.projectedDemand ? "opacity-50" : ""} focus:opacity-100`}
-                               value={mpsPeriod.projectedDemand.toString() || 0}
-                               onChange={(e) => {
-                                const newMrp = JSON.parse(JSON.stringify(plan));
-                                newMrp.mpsPeriods[index].projectedDemand = parseInt(e.target.value) || 0;
-                                setPlan(recalculate(newMrp));
+                            className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.projectedDemand ? "opacity-50" : ""} focus:opacity-100`}
+                            value={mpsPeriod.projectedDemand.toString() || 0}
+                            onChange={(e) => {
+                                plan.mpsPeriods[index].projectedDemand = parseInt(e.target.value) || 0;
+                                recalculatePlan(plan)
                             }}
                         />
                     </td>
@@ -39,15 +37,13 @@ export default function MPS(props: {
                 {plan.mpsPeriods.map((mpsPeriod, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.production ? "opacity-50" : ""} focus:opacity-100 `}
-                               value={mpsPeriod.production.toString() || 0}
-                               onChange={(e) => {
-                                const newMrp = JSON.parse(JSON.stringify(plan));
-                                newMrp.mpsPeriods[index].production = parseInt(e.target.value) || 0;
-                                console.log("wpisywanie prod ", newMrp.mpsPeriods[index].production)
-                                setPlan(recalculate(newMrp));
+                            className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.production ? "opacity-50" : ""} focus:opacity-100 `}
+                            value={mpsPeriod.production.toString() || 0}
+                            onChange={(e) => {
+                                plan.mpsPeriods[index].production = parseInt(e.target.value) || 0;
+                                recalculatePlan(plan)
                             }}
-                               readOnly={plan.automaticMSPCalculations}
+                            readOnly={plan.automaticMSPCalculations}
                         />
                     </td>
                 ))}
@@ -57,9 +53,9 @@ export default function MPS(props: {
                 {plan.mpsPeriods.map((mpsPeriod, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.available ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
-                               value={mpsPeriod.available.toString() || 0}
-                               readOnly={true}
+                            className={`input input-bordered w-full min-w-24 transition ${!mpsPeriod.available ? "opacity-50" : ""} focus:opacity-100 pointer-events-none`}
+                            value={mpsPeriod.available.toString() || 0}
+                            readOnly={true}
                         />
                     </td>
                 ))}

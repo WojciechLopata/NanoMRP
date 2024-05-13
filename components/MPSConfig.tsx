@@ -6,28 +6,23 @@ import MPSPeriod from "@/models/MPSPeriod";
 
 export default function MPSConfig(props: {
     plan: Plan,
-    setPlan: (plan: Plan) => void
+    recalculatePlan: (plan: Plan) => void
 }) {
-    const {plan, setPlan} = props;
-
-    console.log("From Config", plan);
+    const {plan, recalculatePlan} = props;
 
     const handleNumberOfPeriodsChange = (e: ChangeEvent<HTMLInputElement>) => {
         // Get the new number of periods
         const numberOfPeriods = parseInt(e.target.value) || 0;
 
         // Update the number of periods
-        const newMrp = {...plan, numberOfPeriods: numberOfPeriods};
-        const newTestComponent = {...plan.mrpComponents[0],numberOfPeriods:numberOfPeriods}
-        newMrp.mpsPeriods = newMrp.mpsPeriods.slice(0, numberOfPeriods);
-        while (newMrp.mpsPeriods.length < numberOfPeriods) {
-            newMrp.mpsPeriods.push(new MPSPeriod());
+        plan.numberOfPeriods = numberOfPeriods
+        plan.mpsPeriods = plan.mpsPeriods.slice(0, numberOfPeriods);
+        while (plan.mpsPeriods.length < numberOfPeriods) {
+            plan.mpsPeriods.push(new MPSPeriod());
         }
 
         // Recalculate the plan
-        setPlan(recalculate(newMrp));
-
-       // const newcomponent = {... component,numberOfPeriods: numberOfPeriods};
+        recalculatePlan(plan);
     }
 
     return (
@@ -47,9 +42,8 @@ export default function MPSConfig(props: {
                     <input type="number" className="grow min-w-10"
                            value={plan.onHand.toString() || 0}
                            onChange={(e) => {
-                               const newMrp = JSON.parse(JSON.stringify(plan));
-                               newMrp.onHand = parseInt(e.target.value) || 0;
-                               setPlan(recalculate(newMrp));
+                               plan.onHand = parseInt(e.target.value) || 0;
+                               recalculatePlan(plan);
                            }}
                     />
                 </label>
@@ -59,9 +53,8 @@ export default function MPSConfig(props: {
                     <input type="number" className="grow min-w-10"
                            value={plan.lotSize.toString() || 0}
                            onChange={(e) => {
-                               const newMrp = JSON.parse(JSON.stringify(plan));
-                               newMrp.lotSize = parseInt(e.target.value) || 0;
-                               setPlan(recalculate(newMrp));
+                               plan.lotSize = parseInt(e.target.value) || 0;
+                               recalculatePlan(plan);
                            }}
                     />
                 </label>
@@ -72,9 +65,8 @@ export default function MPSConfig(props: {
                     <input
                         type="checkbox"
                         onChange={(e) => {
-                            const newMrp = JSON.parse(JSON.stringify(plan));
-                            newMrp.automaticMSPCalculations = !newMrp.automaticMSPCalculations
-                            setPlan(recalculate(newMrp));
+                            plan.automaticMSPCalculations = !plan.automaticMSPCalculations
+                            recalculatePlan(plan);
                         }}/>
                 </label>
             </div>

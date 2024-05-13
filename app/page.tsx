@@ -101,7 +101,7 @@ export default function Home() {
             <main className="p-10">
                 <section className="flex flex-col gap-5">
                     <div className="overflow-x-auto">
-                        <MPS plan={plan} setPlan={setPlan} componentIndex={componentIndex} setComponentIndex={setComponentIndex}/>
+                        <MPS plan={plan} recalculatePlan={recalculatePlan} recalculatePlanByComponent={recalculatePlanByComponent} componentIndex={componentIndex} setComponentIndex={setComponentIndex}/>
                     </div>
                 </section>
             </main>

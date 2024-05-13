@@ -7,10 +7,9 @@ import Plan from "@/models/plan";
 export default function MRPTable(props: {
     component: MRPComponent,
     componentIndex: number,
-    plan: Plan,
-    setPlan: (plan: Plan) => void,
+    recalculatePlanByComponent: (component: any) => void,
 }) {
-    const {component, plan, setPlan} = props;
+    const {component, recalculatePlanByComponent} = props;
 
 
 
@@ -32,9 +31,7 @@ export default function MRPTable(props: {
                             value={mrpPeriods.grossRequirements.toString() || 0}
                             onChange={(e) => {
                                 component.mrpPeriods[index].grossRequirements = parseInt(e.target.value) || 0;
-                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
-                                const newMrp = JSON.parse(JSON.stringify(plan));
-                                setPlan(recalculate(newMrp));
+                                recalculatePlanByComponent(component);
                             }}
                         />
                     </td>
@@ -49,9 +46,7 @@ export default function MRPTable(props: {
                             value={mrpPeriods.scheduledReceipts.toString() || 0}
                             onChange={(e) => {
                                 component.mrpPeriods[index].scheduledReceipts = parseInt(e.target.value) || 0;
-                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
-                                const newMrp = JSON.parse(JSON.stringify(plan));
-                                setPlan(recalculate(newMrp));
+                                recalculatePlanByComponent(component);
                             }}
                         />
                     </td>
@@ -66,9 +61,7 @@ export default function MRPTable(props: {
                             value={mrpPeriods.projectedOnHand.toString() || 0}
                             onChange={(e) => {
                                 component.mrpPeriods[index].projectedOnHand = parseInt(e.target.value) || 0;
-                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
-                                const newMrp = JSON.parse(JSON.stringify(plan));
-                                setPlan(recalculate(newMrp));
+                                recalculatePlanByComponent(component);
                             }}
                         />
                     </td>
@@ -83,9 +76,7 @@ export default function MRPTable(props: {
                             value={mrpPeriods.netRequirements.toString() || 0}
                             onChange={(e) => {
                                 component.mrpPeriods[index].netRequirements = parseInt(e.target.value) || 0;
-                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
-                                const newMrp = JSON.parse(JSON.stringify(plan));
-                                setPlan(recalculate(newMrp));
+                                recalculatePlanByComponent(component);
                             }}
                         />
                     </td>
@@ -101,9 +92,7 @@ export default function MRPTable(props: {
                             readOnly={true}
                             onChange={(e) => {
                                 component.mrpPeriods[index].plannedOrderReleases = parseInt(e.target.value) || 0;
-                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
-                                const newMrp = JSON.parse(JSON.stringify(plan));
-                                setPlan(recalculate(newMrp));
+                                recalculatePlanByComponent(component);
                             }}
                         />
                     </td>
@@ -119,9 +108,7 @@ export default function MRPTable(props: {
                             readOnly={true}
                             onChange={(e) => {
                                 component.mrpPeriods[index].plannedOrderReceipts = parseInt(e.target.value) || 0;
-                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
-                                const newMrp = JSON.parse(JSON.stringify(plan));
-                                setPlan(recalculate(newMrp));
+                                recalculatePlanByComponent(component);
                             }}
                         />
                     </td>
