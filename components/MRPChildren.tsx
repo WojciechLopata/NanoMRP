@@ -3,7 +3,7 @@ import { recalculateComponent } from "@/lib/recalculate";
 import MRPComponent from "@/models/MRPComponent";
 import MRPPeriod from "@/models/MRPPeriod";
 
-export default function MRPStuff(props: {
+export default function MRPChildren(props: {
     component: MRPComponent,
     componentIndex: number,
     childIndex?: number,

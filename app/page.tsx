@@ -90,7 +90,7 @@ export default function Home() {
             <main className="p-10">
                 <section className="flex flex-col gap-5">
                     <div className="overflow-x-auto">
-                        <MPS plan={mrp} setPlan={setMrp}/>
+                        <MPS plan={mrp} setPlan={setMrp} componentIndex={componentIndex} setComponentIndex={setComponentIndex}/>
                     </div>
                 </section>
             </main>
