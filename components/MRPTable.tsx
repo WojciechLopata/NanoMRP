@@ -23,7 +23,7 @@ export default function MRPTable(props: {
                 </tr>
                 <tr>
                     <th className="bg-transparent z-10 backdrop-blur bg-gradient-to-r from-base-300">
-                        Gross Requirements
+                        Gross requirements
                     </th>
                     {component.mrpPeriods.map((mrpPeriods, index) => (
                         <td key={index}>
