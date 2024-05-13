@@ -3,7 +3,7 @@ import Plan from "@/models/plan";
 
 function recalculate(mrp: Plan) {
     // Recalculate MPS
-    componentRequired = []
+    let componentRequired = [];
     mrp.mpsPeriods.forEach((mpsPeriod, index) => {
         // Recalculate available
         if (index === 0) {
@@ -78,8 +78,10 @@ function recalculate(mrp: Plan) {
     })};
 export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: boolean) {
     console.log(mrp)
-    componentRequired = []
+    
+    let componentRequired = [];
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
+        componentRequired.push(0);
         // Recalculate available
         if (index === 0) {
             MRPPeriod.projectedOnHand = mrp.onHand - MRPPeriod.grossRequirements;
@@ -137,8 +139,13 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
                 MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts;
             }
         }
+        if (MRPPeriod.grossRequirements === null) {
+            MRPPeriod.grossRequirements=0
+            // grossRequirements is null
+        }
+        componentRequired[index] = MRPPeriod.grossRequirements;
     });
-
+    propagateGrossRequirements(mrp, componentRequired);
     return mrp;
 }
 
