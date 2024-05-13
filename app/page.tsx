@@ -1,12 +1,13 @@
 'use client';
 
-import {ChangeEvent, Component, useState} from "react";
+import {useState} from "react";
 import MPS from "@/components/MPS";
 import Plan from "@/models/plan";
 import MPSPeriod from "@/models/MPSPeriod";
 import MRPComponent from "@/models/MRPComponent";
 import MRPPeriod from "@/models/MRPPeriod";
 import recalculate, {recalculateComponent} from "@/lib/recalculate";
+import Hero from "@/components/Hero";
 
 export default function Home() {
     const [componentIndex, setComponentIndex] = useState(null);
@@ -15,7 +16,7 @@ export default function Home() {
     const DEFAULT_NUMBER_OF_PERIODS = 7;
     const components: MRPComponent[] = [
         new MRPComponent(
-            "Pałąk",
+            "Headband",
             40,
             3,
             40,
@@ -25,7 +26,7 @@ export default function Home() {
             []
         ),
         new MRPComponent(
-            "Nausznik",
+            "Earcup",
             40,
             2,
             120,
@@ -33,7 +34,7 @@ export default function Home() {
             DEFAULT_NUMBER_OF_PERIODS,
             Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
             [new MRPComponent(
-                "Głośnik",
+                "Speaker",
                 5,
                 3,
                 5,
@@ -41,8 +42,8 @@ export default function Home() {
                 DEFAULT_NUMBER_OF_PERIODS,
                 Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
                 []
-            ),new MRPComponent(
-                "Gąbka",
+            ), new MRPComponent(
+                "Foam",
                 5,
                 3,
                 5,
@@ -50,8 +51,8 @@ export default function Home() {
                 DEFAULT_NUMBER_OF_PERIODS,
                 Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
                 []
-            ),new MRPComponent(
-                "Obudowa",
+            ), new MRPComponent(
+                "Enclosure",
                 5,
                 3,
                 5,
@@ -59,29 +60,29 @@ export default function Home() {
                 DEFAULT_NUMBER_OF_PERIODS,
                 Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
                 [])]
-        ),new MRPComponent(
-            "Kabel Audio",
+        ), new MRPComponent(
+            "Audio cable",
             1,
-            2,30,20,DEFAULT_NUMBER_OF_PERIODS,
+            2, 30, 20, DEFAULT_NUMBER_OF_PERIODS,
             Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),
             [new MRPComponent(
-                "Przewód",
-                1,1,50,10,DEFAULT_NUMBER_OF_PERIODS,Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),[]),
+                "Wire",
+                1, 1, 50, 10, DEFAULT_NUMBER_OF_PERIODS, Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()), []),
                 new MRPComponent(
-                    "Wtyczka",
-                    2,1,50,10,DEFAULT_NUMBER_OF_PERIODS,Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()),[]
+                    "Connector",
+                    2, 1, 50, 10, DEFAULT_NUMBER_OF_PERIODS, Array.from({length: DEFAULT_NUMBER_OF_PERIODS}, () => new MRPPeriod()), []
                 )]
-            )];
+        )];
 
 
     const [plan, setPlan] = useState(
         new Plan(
-          DEFAULT_NUMBER_OF_PERIODS,
-          0,
-          Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MPSPeriod()),
-          components
+            DEFAULT_NUMBER_OF_PERIODS,
+            0,
+            Array(DEFAULT_NUMBER_OF_PERIODS).fill(new MPSPeriod()),
+            components
         )
-      );
+    );
 
     const recalculatePlan = (plan: Plan) => {
         const newMrp = JSON.parse(JSON.stringify(plan));
@@ -95,13 +96,13 @@ export default function Home() {
 
     return (
         <div>
-            <div className="pt-10 mx-20 ">
-                <h1 className="text-3xl font-bold ">NanoMRP</h1>
-            </div>
+            <Hero />
             <main className="p-10">
                 <section className="flex flex-col gap-5">
                     <div className="overflow-x-auto">
-                        <MPS plan={plan} recalculatePlan={recalculatePlan} recalculatePlanByComponent={recalculatePlanByComponent} componentIndex={componentIndex} setComponentIndex={setComponentIndex}/>
+                        <MPS plan={plan} recalculatePlan={recalculatePlan}
+                             recalculatePlanByComponent={recalculatePlanByComponent} componentIndex={componentIndex}
+                             setComponentIndex={setComponentIndex}/>
                     </div>
                 </section>
             </main>
