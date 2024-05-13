@@ -3,14 +3,15 @@ import MPSTable from "@/components/MPSTable";
 import MPSConfig from "@/components/MPSConfig";
 import MRP from "@/components/MRP";
 import MRPComponent from "@/models/MRPComponent";
-import {recalculateComponent} from "@/lib/recalculate";
+import recalculate, {recalculateComponent} from "@/lib/recalculate";
 
 export default function MRPConfig(props: {
     component: MRPComponent,
-    setComponent: (newComponent: MRPComponent, index: number) => void
-    index: number
+    index: number,
+    plan: Plan,
+    setPlan: (plan: Plan) => void,
 }) {
-    const {component, setComponent, index} = props;
+    const {component, index, plan, setPlan} = props;
 
     return (
         <>
@@ -23,8 +24,10 @@ export default function MRPConfig(props: {
                         className="grow min-w-10"
                         value={component.onHand.toString() || 0}
                         onChange={(e) => {
-                            const newComponent = {...component, onHand: parseInt(e.target.value) || 0};
-                            setComponent(newComponent, index);
+                            component.onHand = parseInt(e.target.value) || 0;
+                            component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+                            const newMrp = JSON.parse(JSON.stringify(plan));
+                            setPlan(recalculate(newMrp));
                         }}
                     />
                 </label>
@@ -36,8 +39,10 @@ export default function MRPConfig(props: {
                         className="grow min-w-10"
                         value={component.lotSize.toString() || 0}
                         onChange={(e) => {
-                            const newComponent = {...component, lotSize: parseInt(e.target.value) || 0};
-                            setComponent(newComponent, index);
+                            component.lotSize = parseInt(e.target.value) || 0;
+                            component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+                            const newMrp = JSON.parse(JSON.stringify(plan));
+                            setPlan(recalculate(newMrp));
                         }}
                     />
                 </label>
@@ -49,8 +54,10 @@ export default function MRPConfig(props: {
                         className="grow min-w-10"
                         value={component.leadTime.toString() || 0}
                         onChange={(e) => {
-                            const newComponent = {...component, leadTime: parseInt(e.target.value) || 0};
-                            setComponent(newComponent, index);
+                            component.leadTime = parseInt(e.target.value) || 0;
+                            component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+                            const newMrp = JSON.parse(JSON.stringify(plan));
+                            setPlan(recalculate(newMrp));
                         }}
                     />
                 </label>

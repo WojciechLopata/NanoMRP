@@ -2,14 +2,16 @@ import recalculate from "@/lib/recalculate";
 import { recalculateComponent } from "@/lib/recalculate";
 import MRPComponent from "@/models/MRPComponent";
 import MRPPeriod from "@/models/MRPPeriod";
+import Plan from "@/models/plan";
 
 export default function MRPTable(props: {
     component: MRPComponent,
     componentIndex: number,
-    childIndex?: number,
-    setComponent: (component: MRPComponent, componentIndex: number, childIndex?: number) => void
+    plan: Plan,
+    setPlan: (plan: Plan) => void,
 }) {
-    const {component, setComponent, componentIndex} = props;
+    const {component, plan, setPlan} = props;
+
 
 
     return (
@@ -26,14 +28,13 @@ export default function MRPTable(props: {
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.grossRequirements ? "opacity-50" : ""} focus:opacity-100`}
-                               value={mrpPeriods.grossRequirements.toString() || 0}
-                               onChange={(e) => {
-                                const newcomponent = JSON.parse(JSON.stringify(component));
-                                newcomponent.mrpPeriods[index].grossRequirements = parseInt(e.target.value) || 0;
-                                console.log(newcomponent)
-                                props.setComponent(recalculateComponent(newcomponent), props.componentIndex, props.childIndex);
-                                /// console.log(component)
+                            className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.grossRequirements ? "opacity-50" : ""} focus:opacity-100`}
+                            value={mrpPeriods.grossRequirements.toString() || 0}
+                            onChange={(e) => {
+                                component.mrpPeriods[index].grossRequirements = parseInt(e.target.value) || 0;
+                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+                                const newMrp = JSON.parse(JSON.stringify(plan));
+                                setPlan(recalculate(newMrp));
                             }}
                         />
                     </td>
@@ -44,15 +45,14 @@ export default function MRPTable(props: {
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.scheduledReceipts ? "opacity-50" : ""} focus:opacity-100 `}
-                               value={mrpPeriods.scheduledReceipts.toString() || 0}
-                               onChange={(e) => {
-                                const newcomponent = JSON.parse(JSON.stringify(component));
-                                newcomponent.mrpPeriods[index].scheduledReceipts = parseInt(e.target.value) || 0;
-                                console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].scheduledReceipts)
-                                props.setComponent(recalculateComponent(newcomponent), props.componentIndex, props.childIndex);
+                            className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.scheduledReceipts ? "opacity-50" : ""} focus:opacity-100 `}
+                            value={mrpPeriods.scheduledReceipts.toString() || 0}
+                            onChange={(e) => {
+                                component.mrpPeriods[index].scheduledReceipts = parseInt(e.target.value) || 0;
+                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+                                const newMrp = JSON.parse(JSON.stringify(plan));
+                                setPlan(recalculate(newMrp));
                             }}
-
                         />
                     </td>
                 ))}
@@ -62,13 +62,14 @@ export default function MRPTable(props: {
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.projectedOnHand ? "opacity-50" : ""} focus:opacity-100`}
-                               value={mrpPeriods.projectedOnHand.toString() || 0}
-                               onChange={(e) => {
-                                    const newcomponent = JSON.parse(JSON.stringify(component));
-                                    newcomponent.mrpPeriods[index].projectedOnHand = parseInt(e.target.value) || 0;
-                                    props.setComponent(recalculateComponent(newcomponent), props.componentIndex, props.childIndex);
-                                }}
+                            className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.projectedOnHand ? "opacity-50" : ""} focus:opacity-100`}
+                            value={mrpPeriods.projectedOnHand.toString() || 0}
+                            onChange={(e) => {
+                                component.mrpPeriods[index].projectedOnHand = parseInt(e.target.value) || 0;
+                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+                                const newMrp = JSON.parse(JSON.stringify(plan));
+                                setPlan(recalculate(newMrp));
+                            }}
                         />
                     </td>
                 ))}
@@ -78,14 +79,14 @@ export default function MRPTable(props: {
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.netRequirements ? "opacity-50" : ""} focus:opacity-100 `}
-                               value={mrpPeriods.netRequirements.toString() || 0}
-                               onChange={(e) => {
-                                    const newcomponent = JSON.parse(JSON.stringify(component));
-                                    newcomponent.mrpPeriods[index].netRequirements = parseInt(e.target.value) || 0;
-                                    console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].netRequirements)
-                                    props.setComponent(recalculateComponent(newcomponent), props.componentIndex, props.childIndex);
-                                }}
+                            className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.netRequirements ? "opacity-50" : ""} focus:opacity-100 `}
+                            value={mrpPeriods.netRequirements.toString() || 0}
+                            onChange={(e) => {
+                                component.mrpPeriods[index].netRequirements = parseInt(e.target.value) || 0;
+                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+                                const newMrp = JSON.parse(JSON.stringify(plan));
+                                setPlan(recalculate(newMrp));
+                            }}
                         />
                     </td>
                 ))}
@@ -95,14 +96,14 @@ export default function MRPTable(props: {
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReleases ? "opacity-50" : ""} focus:opacity-100 `}
-                               value={mrpPeriods.plannedOrderReleases.toString() || 0}
-                               readOnly={true}
-                               onChange={(e) => {
-                                const newcomponent = JSON.parse(JSON.stringify(component));
-                                newcomponent.mrpPeriods[index].plannedOrderReleases = parseInt(e.target.value) || 0;
-                                console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].plannedOrderReleases)
-                                props.setComponent(recalculateComponent(newcomponent), props.componentIndex, props.childIndex);
+                            className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReleases ? "opacity-50" : ""} focus:opacity-100 `}
+                            value={mrpPeriods.plannedOrderReleases.toString() || 0}
+                            readOnly={true}
+                            onChange={(e) => {
+                                component.mrpPeriods[index].plannedOrderReleases = parseInt(e.target.value) || 0;
+                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+                                const newMrp = JSON.parse(JSON.stringify(plan));
+                                setPlan(recalculate(newMrp));
                             }}
                         />
                     </td>
@@ -113,14 +114,14 @@ export default function MRPTable(props: {
                 {component.mrpPeriods.map((mrpPeriods, index) => (
                     <td key={index}>
                         <input type="text"
-                               className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReceipts ? "opacity-50" : ""} focus:opacity-100 `}
-                               value={mrpPeriods.plannedOrderReceipts.toString() || 0}
-                               readOnly={true}
-                               onChange={(e) => {
-                                const newcomponent = JSON.parse(JSON.stringify(component));
-                                newcomponent.mrpPeriods[index].plannedOrderReceipts = parseInt(e.target.value) || 0;
-                                console.log("wpisywanie prod ", newcomponent.mrpPeriods[index].plannedOrderReceipts)
-                                props.setComponent(recalculateComponent(newcomponent), props.componentIndex, props.childIndex);
+                            className={`input input-bordered w-full min-w-24 transition ${!mrpPeriods.plannedOrderReceipts ? "opacity-50" : ""} focus:opacity-100 `}
+                            value={mrpPeriods.plannedOrderReceipts.toString() || 0}
+                            readOnly={true}
+                            onChange={(e) => {
+                                component.mrpPeriods[index].plannedOrderReceipts = parseInt(e.target.value) || 0;
+                                component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+                                const newMrp = JSON.parse(JSON.stringify(plan));
+                                setPlan(recalculate(newMrp));
                             }}
                         />
                     </td>

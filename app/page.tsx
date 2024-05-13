@@ -6,6 +6,7 @@ import Plan from "@/models/plan";
 import MPSPeriod from "@/models/MPSPeriod";
 import MRPComponent from "@/models/MRPComponent";
 import MRPPeriod from "@/models/MRPPeriod";
+import recalculate, {recalculateComponent} from "@/lib/recalculate";
 
 export default function Home() {
     const [componentIndex, setComponentIndex] = useState(null);
@@ -73,7 +74,7 @@ export default function Home() {
             )];
 
 
-    const [mrp, setMrp] = useState(
+    const [plan, setPlan] = useState(
         new Plan(
           DEFAULT_NUMBER_OF_PERIODS,
           0,
@@ -81,6 +82,16 @@ export default function Home() {
           components
         )
       );
+
+    const recalculatePlan = (plan: Plan) => {
+        const newMrp = JSON.parse(JSON.stringify(plan));
+        setPlan(recalculate(newMrp));
+    }
+
+    const recalculatePlanByComponent = (component: MRPComponent) => {
+        component.mrpPeriods = recalculateComponent(component).mrpPeriods;
+        recalculatePlan(plan);
+    }
 
     return (
         <div>
@@ -90,7 +101,7 @@ export default function Home() {
             <main className="p-10">
                 <section className="flex flex-col gap-5">
                     <div className="overflow-x-auto">
-                        <MPS plan={mrp} setPlan={setMrp} componentIndex={componentIndex} setComponentIndex={setComponentIndex}/>
+                        <MPS plan={plan} setPlan={setPlan} componentIndex={componentIndex} setComponentIndex={setComponentIndex}/>
                     </div>
                 </section>
             </main>
