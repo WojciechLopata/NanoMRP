@@ -1,3 +1,4 @@
+import MRPComponent from "@/models/MRPComponent";
 import Plan from "@/models/plan";
 
 function recalculate(mrp: Plan) {
@@ -41,4 +42,23 @@ function recalculate(mrp: Plan) {
     return mrp;
 }
 
+export function recalculateComponent(mrp: MRPComponent) {
+
+    
+    mrp.mrpPeriods.forEach((MRPPeriod, index) => {
+        
+        // Recalculate available
+        if (index === 0) {
+            MRPPeriod.projectedOnHand = mrp.onHand - MRPPeriod.grossRequirements;
+        } else {
+            MRPPeriod.projectedOnHand = mrp.mrpPeriods[index-1].projectedOnHand - MRPPeriod.grossRequirements;
+        }
+
+    //console.log("mrp recalculated")
+    //console.log(mrp)
+
+   
+})
+return mrp;
+}
 export default recalculate;

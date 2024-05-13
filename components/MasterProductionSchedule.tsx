@@ -8,7 +8,7 @@ export default function MasterProductionSchedule(props: {
     const {mrp, setMrp} = props;
 
     return (
-        <table className="table table-pin-cols">
+        <table className="table table-pin-cols my-10">
             <tbody>
             <tr>
                 <th>Week</th>
