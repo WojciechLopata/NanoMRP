@@ -58,7 +58,7 @@ export default function MPSConfig(props: {
                            }}
                     />
                 </label>
-                <label className="flex items-center border border-1 border-neutral-content/30 bg-neutral/20 py-2 px-3 rounded-lg">
+                <label className="flex items-center border border-1 border-base-content/20 bg-base-100 py-2 px-3 rounded-lg">
                     <a className="text-xl pr-3">Automatic calculation</a>
                     <input
                         type="checkbox"
