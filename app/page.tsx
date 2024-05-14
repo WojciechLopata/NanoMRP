@@ -9,7 +9,6 @@ import MRPComponent from "@/models/MRPComponent";
 import MRPPeriod from "@/models/MRPPeriod";
 import recalculate, {recalculateComponent} from "@/lib/recalculate";
 import Hero from "@/components/Hero";
-import {DocumentIcon} from "@heroicons/react/24/solid";
 
 export default function Home() {
     const [componentIndex, setComponentIndex] = useState(null);
@@ -119,14 +118,6 @@ export default function Home() {
 
     return (
         <div>
-            <button className="btn btn-square fixed top-5 right-5 z-20 shadow-xl"
-                    onClick={
-                        // @ts-ignore
-                        () => document.getElementById('export-import-modal').showModal()
-                    }>
-                <DocumentIcon className="w-6"/>
-            </button>
-
             <Hero/>
 
             <main className="p-5 sm:p-10">
