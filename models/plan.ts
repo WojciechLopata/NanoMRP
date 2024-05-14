@@ -10,7 +10,7 @@ class Plan {
 
     lotSize: number;
 
-    automaticMSPCalculations= false;
+    automaticMSPCalculations = true;
     allowAddingReceipts: boolean = false;
 
 
@@ -27,14 +27,13 @@ class Plan {
         onHand = 0,
         mpsPeriods = <MPSPeriod[]>[],
         mrpComponents = <MRPComponent[]>[],
-        lotSize=1
-
+        lotSize = 1
     ) {
         this.numberOfPeriods = numberOfPeriods;
         this.onHand = onHand;
         this.mpsPeriods = mpsPeriods;
         this.mrpComponents = mrpComponents;
-        this.lotSize=lotSize;
+        this.lotSize = lotSize;
     }
 }
 
