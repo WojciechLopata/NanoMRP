@@ -102,13 +102,15 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
         if (index + 1 < mrp.leadTime && allowAddingReceipts) {
             const futurePeriod = mrp.mrpPeriods[index + 1];
             if (futurePeriod.grossRequirements > MRPPeriod.projectedOnHand) {
+                console.log("scheduledReceipts")
                 MRPPeriod.scheduledReceipts = futurePeriod.grossRequirements - MRPPeriod.projectedOnHand;
                 MRPPeriod.projectedOnHand = MRPPeriod.projectedOnHand + MRPPeriod.scheduledReceipts;
+              //  console.log(MRPPeriod.projectedOnHand)
             }
         }
 
         // If gross requirements drop to zero, clear all the fields
-        if (MRPPeriod.grossRequirements === 0) {
+        if (MRPPeriod.grossRequirements === 0 && MRPPeriod.scheduledReceipts===0) {
             MRPPeriod.plannedOrderReleases = 0;
             MRPPeriod.scheduledReceipts = 0;
             MRPPeriod.netRequirements = 0;
@@ -147,7 +149,8 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
             }
 
             if (index > 0) {
-                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts;
+                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts + mrp.mrpPeriods[index -1].scheduledReceipts;
+                
             }
         }
 
@@ -155,7 +158,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
             MRPPeriod.netRequirements = MRPPeriod.projectedOnHand * -1;
 
             if (index > 0) {
-                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts;
+                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts + mrp.mrpPeriods[index -1].scheduledReceipts;
             }
         }
         if (MRPPeriod.grossRequirements === null) {
