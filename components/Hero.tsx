@@ -25,11 +25,11 @@ export default function Hero() {
     }, []);
 
     return (
-        <div className="hero h-[25vh] place-items-start bg-bottom"
+        <div className="hero h-[25vh] min-h-52 place-items-start bg-bottom"
              style={{backgroundImage: 'url("milad-fakurian-PGdW_bHDbpI-unsplash-cropped.jpg")'}}>
             <div className="hero-overlay bg-opacity-10"></div>
-            <div className="hero-content w-full px-5 py-10 sm:px-10 sm:py-12">
-                <div className="w-full flex gap-8 text-neutral">
+            <div className="hero-content w-full h-full px-5 py-10 sm:px-10">
+                <div className="w-full flex items-center gap-8 text-neutral">
                     <ChartBarIcon className="w-24 h-24 hidden sm:block"/>
                     <div>
                         <div className="flex gap-5">
