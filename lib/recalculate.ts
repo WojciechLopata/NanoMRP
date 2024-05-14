@@ -191,7 +191,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
             MRPPeriod.grossRequirements = 0
             // grossRequirements is null
         }
-        componentRequired[index] = MRPPeriod.grossRequirements;
+        componentRequired[index] = MRPPeriod.plannedOrderReceipts;
     });
     //console.log(mrp)
     propagateGrossRequirements(mrp, componentRequired);
