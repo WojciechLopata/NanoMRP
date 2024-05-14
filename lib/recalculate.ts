@@ -108,6 +108,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
         // Recalculate available
         if (index === 0) {
             MRPPeriod.projectedOnHand = mrp.onHand - MRPPeriod.grossRequirements + (mrp.mrpPeriods[index].scheduledReceipts || 0);
+            console.log("MRP ON HAND "+ mrp.onHand)
         } else {
             MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + (mrp.mrpPeriods[index].scheduledReceipts || 0);
         }
@@ -117,6 +118,9 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
             const futurePeriod = mrp.mrpPeriods[index + 1];
             if (futurePeriod.grossRequirements > MRPPeriod.projectedOnHand) {
                 // console.log("scheduledReceipts")
+                if(index===0){
+                    console.log(MRPPeriod.projectedOnHand+" On Hand")
+                }
                 MRPPeriod.scheduledReceipts = futurePeriod.grossRequirements - MRPPeriod.projectedOnHand;
                 MRPPeriod.projectedOnHand = MRPPeriod.projectedOnHand + MRPPeriod.scheduledReceipts;
                 //    console.log(MRPPeriod.projectedOnHand)
