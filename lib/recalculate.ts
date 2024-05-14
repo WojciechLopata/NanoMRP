@@ -51,7 +51,7 @@ function propagateGrossRequirements(mrp: MRPComponent, periods) {
             // Check if automaticMRP is true before updating grossRequirements
             let adjustedIndex = Math.max(0, index - child.leadTime);
 
-            if (child.mrpPeriods[adjustedIndex].grossRequirements < periods[index] * child.quantity) {
+            if (mrp.automaticChildCalculation) {
                 child.mrpPeriods[adjustedIndex].grossRequirements = periods[index] * child.quantity;
             }
 

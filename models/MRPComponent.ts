@@ -9,6 +9,7 @@ class MRPComponent {
     mrpPeriods: MRPPeriod[];
     numberOfPeriods: number;
     children: MRPComponent[];
+    automaticChildCalculation: boolean;
 
     /**
      * Constructor for the MRPComponent class
@@ -29,7 +30,8 @@ class MRPComponent {
         onHand = 0,
         numberOfPeriods= 7,
         mrpPeriods = <MRPPeriod[]>[],
-        children = <MRPComponent[]>[]
+        children = <MRPComponent[]>[],
+        automaticChildCalculation = false
     ) {
         this.numberOfPeriods =numberOfPeriods;
         this.name = name;
