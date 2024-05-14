@@ -49,7 +49,7 @@ export default function MPS(props: {
                                        newPlan.mpsPeriods[index].production = parseInt(e.target.value) || 0;
                                        recalculatePlan(newPlan);
                                    }}
-                                   
+
                             />
                         </td>
                     ))}
