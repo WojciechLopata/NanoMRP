@@ -1,5 +1,6 @@
 import MRPComponent from "@/models/MRPComponent";
 import Plan from "@/models/plan";
+import MRPPeriod from "@/models/MRPPeriod";
 
 function recalculate(mrp: Plan) {
     // Clear MRP tables
@@ -46,6 +47,10 @@ function propagateGrossRequirements(mrp: MRPComponent, periods) {
         periods.forEach((period, index) => {
             if (periods[index] == null) {
                 periods[index] = 0;
+            }
+
+            if (!child.mrpPeriods[index]) {
+                child.mrpPeriods[index] = new MRPPeriod();
             }
 
             // Check if automaticMRP is true before updating grossRequirements

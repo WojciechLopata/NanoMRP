@@ -1,6 +1,7 @@
 import Plan from "@/models/plan";
 import {ChangeEvent} from "react";
 import MPSPeriod from "@/models/MPSPeriod";
+import MRPPeriod from "@/models/MRPPeriod";
 
 export default function MPSConfig(props: {
     plan: Plan,
@@ -13,11 +14,19 @@ export default function MPSConfig(props: {
         const numberOfPeriods = parseInt(e.target.value) || 0;
 
         // Update the number of periods
-        plan.numberOfPeriods = numberOfPeriods
+        plan.numberOfPeriods = numberOfPeriods;
         plan.mpsPeriods = plan.mpsPeriods.slice(0, numberOfPeriods);
         while (plan.mpsPeriods.length < numberOfPeriods) {
             plan.mpsPeriods.push(new MPSPeriod());
         }
+
+        // Update the number of periods for each MRPComponent
+        plan.mrpComponents.forEach(component => {
+            while (component.mrpPeriods.length < numberOfPeriods) {
+                component.mrpPeriods.push(new MRPPeriod());
+            }
+            component.mrpPeriods = component.mrpPeriods.slice(0, numberOfPeriods);
+        });
 
         // Recalculate the plan
         recalculatePlan(plan);
