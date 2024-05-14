@@ -33,13 +33,13 @@ function recalculate(mrp: Plan) {
             // grossRequirements is null
         }
         componentRequired[index] = mpsPeriod.production;
-        console.log(componentRequired)
+      //  console.log(componentRequired)
 
     });
 
     propagateGrossRequirementsParent(mrp, componentRequired);
 
-    console.log(mrp)
+   // console.log(mrp)
     return mrp;
 }
 
@@ -57,8 +57,11 @@ function propagateGrossRequirements(mrp: MRPComponent, periods) {
             }
 
             // Check if automaticMRP is true before updating grossRequirements
-            if (child.mrpPeriods[index].grossRequirements < periods[index] * child.quantity) {
-                child.mrpPeriods[index].grossRequirements = periods[index] * child.quantity;
+            let adjustedIndex = Math.max(0, index - child.leadTime);
+
+            if (mrp.automaticChildCalculation) {
+                console.log("automatic:")
+                child.mrpPeriods[adjustedIndex].grossRequirements = periods[index] * child.quantity;
             }
 
             recalculateComponent(child);
@@ -83,6 +86,13 @@ function propagateGrossRequirementsParent(mrp: Plan, periods) {
                 child.mrpPeriods[index].grossRequirements = periods[index] * child.quantity;
             }
 
+           if(mrp.automaticMSPCalculations){
+            let adjustedIndex = Math.max(0, index - child.leadTime);
+
+            child.mrpPeriods[adjustedIndex].grossRequirements = periods[index] * child.quantity;
+           }
+
+
 
             recalculateComponent(child);
         });
@@ -92,6 +102,7 @@ function propagateGrossRequirementsParent(mrp: Plan, periods) {
 export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: boolean) {
 
     let componentRequired: any[] = [];
+   
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
 
 
@@ -106,13 +117,15 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
         if (index + 1 < mrp.leadTime && allowAddingReceipts) {
             const futurePeriod = mrp.mrpPeriods[index + 1];
             if (futurePeriod.grossRequirements > MRPPeriod.projectedOnHand) {
+                console.log("scheduledReceipts")
                 MRPPeriod.scheduledReceipts = futurePeriod.grossRequirements - MRPPeriod.projectedOnHand;
                 MRPPeriod.projectedOnHand = MRPPeriod.projectedOnHand + MRPPeriod.scheduledReceipts;
+              //  console.log(MRPPeriod.projectedOnHand)
             }
         }
 
         // If gross requirements drop to zero, clear all the fields
-        if (MRPPeriod.grossRequirements === 0) {
+        if (MRPPeriod.grossRequirements === 0 && MRPPeriod.scheduledReceipts===0) {
             MRPPeriod.plannedOrderReleases = 0;
             MRPPeriod.scheduledReceipts = 0;
             MRPPeriod.netRequirements = 0;
@@ -134,6 +147,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
                     // Set the planned order releases in the current period
                     // Change: Order the lots in prior weeks
                     const requiredLots = Math.ceil((futurePeriod.grossRequirements - MRPPeriod.projectedOnHand - totalPlannedOrderReceipts) / mrp.lotSize);
+                    console.log(requiredLots,mrp.name)
                     for (let i = 0; i < requiredLots; i++) {
                         if (index - i >= 0) {
                             mrp.mrpPeriods[index - i].plannedOrderReleases = mrp.lotSize;
@@ -150,7 +164,8 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
             }
 
             if (index > 0) {
-                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts;
+                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts + mrp.mrpPeriods[index -1].scheduledReceipts;
+                
             }
         }
 
@@ -158,7 +173,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
             MRPPeriod.netRequirements = MRPPeriod.projectedOnHand * -1;
 
             if (index > 0) {
-                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts;
+                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts + mrp.mrpPeriods[index -1].scheduledReceipts;
             }
         }
         if (MRPPeriod.grossRequirements === null) {
@@ -167,6 +182,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
         }
         componentRequired[index] = MRPPeriod.grossRequirements;
     });
+     //console.log(mrp)
     propagateGrossRequirements(mrp, componentRequired);
     return mrp;
 }

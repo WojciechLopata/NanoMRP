@@ -38,7 +38,7 @@ export default function Home() {
     };
 
     // Default number of periods in the Master Production Schedule and all the components
-    const DEFAULT_NUMBER_OF_PERIODS = 7;
+    const DEFAULT_NUMBER_OF_PERIODS = 10;
     const components: MRPComponent[] = [
         new MRPComponent(
             "Headband",

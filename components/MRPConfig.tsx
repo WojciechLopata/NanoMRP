@@ -48,6 +48,21 @@ export default function MRPConfig(props: {
                         }}
                     />
                 </label>
+                <label
+                    className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
+                     Manual childen Calculations
+                     <input
+                        type="checkbox"
+                        className="toggle"
+                        checked={!(component.automaticChildCalculation)}
+                        onChange={() => {
+                            component.automaticChildCalculation = !component.automaticChildCalculation
+
+                            {console.log("test",component.automaticChildCalculation)}
+                            recalculatePlanByComponent(component);
+                        }}/>
+                </label>
+            
 
             </div>
         </>
