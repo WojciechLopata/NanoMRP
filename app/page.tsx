@@ -9,7 +9,7 @@ import MRPComponent from "@/models/MRPComponent";
 import MRPPeriod from "@/models/MRPPeriod";
 import recalculate, {recalculateComponent} from "@/lib/recalculate";
 import Hero from "@/components/Hero";
-import debounce from "debounce";
+// import debounce from "debounce";
 
 export default function Home() {
     const [componentIndex, setComponentIndex] = useState(null);
@@ -110,21 +110,20 @@ export default function Home() {
     );
 
     // Set debounce time
-    const DEBOUNCE_TIME = 3000;
+    // const DEBOUNCE_TIME = 3000;
 
     const recalculatePlan = (plan: Plan) => {
-        debounce(() => {
+        // debounce(() => {
             const newMrp = JSON.parse(JSON.stringify(plan));
             setPlan(recalculate(newMrp));
-        }, DEBOUNCE_TIME)();
+        // }, DEBOUNCE_TIME)();
     }
 
     const recalculatePlanByComponent = (component: MRPComponent) => {
-        debounce(() => {
-
+        // debounce(() => {
             component.mrpPeriods = recalculateComponent(component, plan.allowAddingReceipts).mrpPeriods;
             recalculatePlan(plan);
-        }, DEBOUNCE_TIME)();
+        // }, DEBOUNCE_TIME)();
     }
 
     return (

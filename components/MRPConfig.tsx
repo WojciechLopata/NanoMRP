@@ -58,11 +58,11 @@ export default function MRPConfig(props: {
                         onChange={() => {
                             component.automaticChildCalculation = !component.automaticChildCalculation
 
-                            {console.log("test",component.automaticChildCalculation)}
+                            // {console.log("test",component.automaticChildCalculation)}
                             recalculatePlanByComponent(component);
                         }}/>
                 </label>
-            
+
 
             </div>
         </>
