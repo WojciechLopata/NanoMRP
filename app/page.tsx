@@ -12,11 +12,13 @@ import Hero from "@/components/Hero";
 
 export default function Home() {
     const [componentIndex, setComponentIndex] = useState(null);
+
     const handleExport = () => {
-        const json = JSON.stringify(plan);
+        const json = JSON.stringify(plan, null, 2);
         const blob = new Blob([json], {type: "application/json"});
         saveAs(blob, 'plan.json');
     };
+
     const handleImport = (event: ChangeEvent<HTMLInputElement>) => {
         // @ts-ignore
         const file = event.target.files[0];
