@@ -32,7 +32,7 @@ function recalculate(mrp: Plan) {
             mpsPeriod.production = 0
             // grossRequirements is null
         }
-        componentRequired[index] = mpsPeriod.production;
+        componentRequired[index-1] = mpsPeriod.production;
         //  console.log(componentRequired)
 
     });
