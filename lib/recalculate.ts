@@ -1,8 +1,14 @@
 import MRPComponent from "@/models/MRPComponent";
 import Plan from "@/models/plan";
 import MRPPeriod from "@/models/MRPPeriod";
+import debounce from "debounce";
 
-function recalculate(mrp: Plan) {
+function recalculate(mrp:Plan ){
+
+    debounce(recalculatePlan, 3000)(mrp);
+}
+
+function recalculatePlan(mrp: Plan) {
     // Clear MRP tables
     // mrp.mrpComponents.forEach(component => {
     //     component.mrpPeriods.forEach(period => {
@@ -108,9 +114,9 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
 
         // Recalculate available
         if (index === 0) {
-            MRPPeriod.projectedOnHand = mrp.onHand - MRPPeriod.grossRequirements;
+            MRPPeriod.projectedOnHand = mrp.onHand - MRPPeriod.grossRequirements + (mrp.mrpPeriods[index].scheduledReceipts || 0);
         } else {
-            MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + (mrp.mrpPeriods[index - 1].scheduledReceipts || 0);
+            MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + (mrp.mrpPeriods[index].scheduledReceipts || 0);
         }
 
         // Check for scheduled receipts possibilities in the future
@@ -120,7 +126,12 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
                 console.log("scheduledReceipts")
                 MRPPeriod.scheduledReceipts = futurePeriod.grossRequirements - MRPPeriod.projectedOnHand;
                 MRPPeriod.projectedOnHand = MRPPeriod.projectedOnHand + MRPPeriod.scheduledReceipts;
-              //  console.log(MRPPeriod.projectedOnHand)
+           //    console.log(MRPPeriod.projectedOnHand)
+           console.log(futurePeriod.grossRequirements+" Gross Requirements")
+               console.log(MRPPeriod.scheduledReceipts+" Recieipds")
+            }
+            else{
+                MRPPeriod.scheduledReceipts =0;
             }
         }
 
@@ -164,7 +175,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
             }
 
             if (index > 0) {
-                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts + mrp.mrpPeriods[index -1].scheduledReceipts;
+                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts + mrp.mrpPeriods[index].scheduledReceipts;
                 
             }
         }
@@ -173,7 +184,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
             MRPPeriod.netRequirements = MRPPeriod.projectedOnHand * -1;
 
             if (index > 0) {
-                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts + mrp.mrpPeriods[index -1].scheduledReceipts;
+                MRPPeriod.projectedOnHand = mrp.mrpPeriods[index - 1].projectedOnHand - MRPPeriod.grossRequirements + MRPPeriod.plannedOrderReceipts + mrp.mrpPeriods[index].scheduledReceipts;
             }
         }
         if (MRPPeriod.grossRequirements === null) {
