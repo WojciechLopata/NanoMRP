@@ -10,7 +10,7 @@ class Plan {
 
     lotSize: number;
 
-    automaticMSPCalculations= false;
+    automaticMSPCalculations= true;
     allowAddingReceipts: boolean = false;
 
 
