@@ -31,7 +31,7 @@ class MRPComponent {
         numberOfPeriods= 7,
         mrpPeriods = <MRPPeriod[]>[],
         children = <MRPComponent[]>[],
-        automaticChildCalculation = false
+        automaticChildCalculation = true,
     ) {
         this.numberOfPeriods =numberOfPeriods;
         this.name = name;
@@ -41,6 +41,8 @@ class MRPComponent {
         this.onHand = onHand;
         this.mrpPeriods = mrpPeriods;
         this.children = children;
+        this.automaticChildCalculation = true;
+
     }
 }
 

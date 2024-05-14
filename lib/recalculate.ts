@@ -32,13 +32,13 @@ function recalculate(mrp: Plan) {
             // grossRequirements is null
         }
         componentRequired[index] = mpsPeriod.production;
-        console.log(componentRequired)
+      //  console.log(componentRequired)
 
     });
 
     propagateGrossRequirementsParent(mrp, componentRequired);
 
-    console.log(mrp)
+   // console.log(mrp)
     return mrp;
 }
 function propagateGrossRequirements(mrp: MRPComponent, periods) {
@@ -52,6 +52,7 @@ function propagateGrossRequirements(mrp: MRPComponent, periods) {
             let adjustedIndex = Math.max(0, index - child.leadTime);
 
             if (mrp.automaticChildCalculation) {
+                console.log("automatic:")
                 child.mrpPeriods[adjustedIndex].grossRequirements = periods[index] * child.quantity;
             }
 
@@ -163,7 +164,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
         }
         componentRequired[index] = MRPPeriod.grossRequirements;
     });
-     console.log(mrp)
+     //console.log(mrp)
     propagateGrossRequirements(mrp, componentRequired);
     return mrp;
 }
