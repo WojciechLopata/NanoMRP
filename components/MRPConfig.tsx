@@ -49,9 +49,9 @@ export default function MRPConfig(props: {
                     />
                 </label>
                 <label
-                    className="input input-bordered flex items-center gap-2 max-w-sm min-w-24 transition whitespace-nowrap">
-                     Manual childen Calculations
-                     <input
+                    className="flex items-center border border-1 border-base-content/20 bg-base-100 py-2 px-3 rounded-lg">
+                    <a className="text-xl pr-3">Manual mode</a>
+                    <input
                         type="checkbox"
                         className="toggle"
                         checked={!(component.automaticChildCalculation)}

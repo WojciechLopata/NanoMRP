@@ -1,14 +1,8 @@
 import MRPComponent from "@/models/MRPComponent";
 import Plan from "@/models/plan";
 import MRPPeriod from "@/models/MRPPeriod";
-import debounce from "debounce";
 
-function recalculate(mrp:Plan ){
-
-    debounce(recalculatePlan, 3000)(mrp);
-}
-
-function recalculatePlan(mrp: Plan) {
+function recalculate(mrp: Plan) {
     // Clear MRP tables
     // mrp.mrpComponents.forEach(component => {
     //     component.mrpPeriods.forEach(period => {
