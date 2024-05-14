@@ -11,7 +11,10 @@ export default function MPSConfig(props: {
 
     const handleNumberOfPeriodsChange = (e: ChangeEvent<HTMLInputElement>) => {
         // Get the new number of periods
-        const numberOfPeriods = parseInt(e.target.value) || 0;
+        let numberOfPeriods = parseInt(e.target.value) || 0;
+
+        // Ensure the number of periods is at least 1
+        numberOfPeriods = Math.max(numberOfPeriods, 1);
 
         // Update the number of periods
         plan.numberOfPeriods = numberOfPeriods;
