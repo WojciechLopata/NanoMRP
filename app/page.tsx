@@ -19,15 +19,20 @@ export default function Home() {
         saveAs(blob, 'plan.json');
     };
     const handleImport = (event: ChangeEvent<HTMLInputElement>) => {
+        // @ts-ignore
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
+                // @ts-ignore
                 const json = e.target.result as string;
                 const plan = JSON.parse(json);
                 setPlan(plan);
             };
             reader.readAsText(file);
+
+            // @ts-ignore
+            document.getElementById('export-import-modal').close();
         }
     };
 
@@ -115,7 +120,10 @@ export default function Home() {
     return (
         <div>
             <button className="btn btn-square fixed top-5 right-5 z-20 shadow-xl"
-                    onClick={() => document.getElementById('my_modal_1').showModal()}>
+                    onClick={
+                        // @ts-ignore
+                        () => document.getElementById('export-import-modal').showModal()
+                    }>
                 <DocumentIcon className="w-6"/>
             </button>
 
@@ -129,10 +137,13 @@ export default function Home() {
                      setComponentIndex={setComponentIndex}/>
             </main>
 
-            <dialog id="my_modal_1" className="modal">
+            <dialog id="export-import-modal" className="modal">
                 <div className="modal-box">
-                    <h2 className="font-bold text-lg">Export/Import</h2>
-                    <p className="py-4">You can export and import your data in the JSON format.</p>
+                    <h2 className="font-bold text-lg">Export & import</h2>
+                    <p className="py-4">
+                        You can export and import your data in the JSON format to use it later, back up your simulations
+                        or share it with others.
+                    </p>
                     <div className="flex flex-col w-full lg:flex-row">
                         <div className="grid flex-grow h-24 card rounded-box place-items-center">
                             <button

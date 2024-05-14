@@ -25,9 +25,9 @@ function recalculate(mrp: Plan) {
         }
 
         // Recalculate production
-      
-            mpsPeriod.available = mpsPeriod.production + mpsPeriod.available
-        
+
+        mpsPeriod.available = mpsPeriod.production + mpsPeriod.available
+
         if (mpsPeriod.production === null || mpsPeriod.production == null) {
             mpsPeriod.production = 0
             // grossRequirements is null
@@ -42,8 +42,11 @@ function recalculate(mrp: Plan) {
     console.log(mrp)
     return mrp;
 }
+
+// @ts-ignore
 function propagateGrossRequirements(mrp: MRPComponent, periods) {
     mrp.children.forEach(child => {
+        // @ts-ignore
         periods.forEach((period, index) => {
             if (periods[index] == null) {
                 periods[index] = 0;
@@ -63,22 +66,24 @@ function propagateGrossRequirements(mrp: MRPComponent, periods) {
     });
 }
 
+// @ts-ignore
 function propagateGrossRequirementsParent(mrp: Plan, periods) {
     // console.log(periods)
     mrp.mrpComponents.forEach(child => {
 
+        // @ts-ignore
         periods.forEach((period, index) => {
-           
+
             if (periods[index] == null) {
                 periods[index] = 0
                 // grossRequirements is null
-                
-            }
-           if(mrp.automaticMSPCalculations){
-            child.mrpPeriods[index].grossRequirements = periods[index] * child.quantity;
-           }
 
-           
+            }
+            if (mrp.automaticMSPCalculations) {
+                child.mrpPeriods[index].grossRequirements = periods[index] * child.quantity;
+            }
+
+
             recalculateComponent(child);
         });
     })
@@ -88,7 +93,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
 
     let componentRequired: any[] = [];
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
-        
+
 
         // Recalculate available
         if (index === 0) {
