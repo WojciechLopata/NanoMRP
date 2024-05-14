@@ -135,7 +135,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
             MRPPeriod.plannedOrderReleases = 0;
             MRPPeriod.scheduledReceipts = 0;
             MRPPeriod.netRequirements = 0;
-            MRPPeriod.projectedOnHand = 0;
+            
             MRPPeriod.plannedOrderReceipts = 0;
         }
 
