@@ -157,17 +157,15 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
                     // console.log(requiredLots, mrp.name)
                     for (let i = 0; i < requiredLots; i++) {
                         if (index - i >= 0) {
-                            mrp.mrpPeriods[index - i].plannedOrderReleases = mrp.lotSize;
+                           
                             if (index + mrp.leadTime - i >= 0) {
+                                mrp.mrpPeriods[index - i].plannedOrderReleases = mrp.lotSize;
                                 mrp.mrpPeriods[index + mrp.leadTime - i].plannedOrderReceipts = mrp.lotSize;
                             }
                         }
                     }
                 }
-                if(lacking>0){
-                    mrp.mrpPeriods[index].plannedOrderReleases = mrp.lotSize;
-                    mrp.mrpPeriods[index + mrp.leadTime].plannedOrderReceipts = mrp.lotSize;
-                }
+               
             }
 
             if (MRPPeriod.projectedOnHand < 0) {
