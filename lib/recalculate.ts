@@ -50,27 +50,25 @@ function recalculate(mrp: Plan) {
 
     });
 
-    propagateGrossRequirementsParent(mrp, componentRequired);
+   // propagateGrossRequirementsParent(mrp, componentRequired);
 
     console.log(mrp)
     return mrp;
 }
-
-function propagateGrossRequirements(mrp: MRPComponent, periods) {
+function propagateGrossRequirements(mrp: MRPComponent, periods ) {
     //console.log(periods)
     mrp.children.forEach(child => {
 
         periods.forEach((period, index) => {
             if (periods[index] == null) {
-                periods[index] = 0
+                periods[index]=0
                 // grossRequirements is null
             }
 
-            child.mrpPeriods[index].grossRequirements = periods[index] * child.quantity;
-            recalculateComponent(child);
-        });
-    })
-}
+        child.mrpPeriods[index].grossRequirements = periods[index]*child.quantity;
+        recalculateComponent(child);
+    });
+})};
 
 function propagateGrossRequirementsParent(mrp: Plan, periods) {
     // console.log(periods)
@@ -94,7 +92,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
 
     let componentRequired: any[] = [];
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
-        componentRequired.push(0);
+        
 
         // Recalculate available
         if (index === 0) {
