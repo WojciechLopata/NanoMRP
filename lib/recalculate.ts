@@ -49,8 +49,10 @@ function propagateGrossRequirements(mrp: MRPComponent, periods) {
             }
 
             // Check if automaticMRP is true before updating grossRequirements
-            if (child.mrpPeriods[index].grossRequirements < periods[index] * child.quantity) {
-                child.mrpPeriods[index].grossRequirements = periods[index] * child.quantity;
+            let adjustedIndex = Math.max(0, index - child.leadTime);
+
+            if (child.mrpPeriods[adjustedIndex].grossRequirements < periods[index] * child.quantity) {
+                child.mrpPeriods[adjustedIndex].grossRequirements = periods[index] * child.quantity;
             }
 
             recalculateComponent(child);
@@ -70,7 +72,9 @@ function propagateGrossRequirementsParent(mrp: Plan, periods) {
                 
             }
            if(mrp.automaticMSPCalculations){
-            child.mrpPeriods[index].grossRequirements = periods[index] * child.quantity;
+            let adjustedIndex = Math.max(0, index - child.leadTime);
+
+            child.mrpPeriods[adjustedIndex].grossRequirements = periods[index] * child.quantity;
            }
 
            
@@ -82,6 +86,7 @@ function propagateGrossRequirementsParent(mrp: Plan, periods) {
 export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: boolean) {
 
     let componentRequired: any[] = [];
+   
     mrp.mrpPeriods.forEach((MRPPeriod, index) => {
         
 
@@ -124,6 +129,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
                     // Set the planned order releases in the current period
                     // Change: Order the lots in prior weeks
                     const requiredLots = Math.ceil((futurePeriod.grossRequirements - MRPPeriod.projectedOnHand - totalPlannedOrderReceipts) / mrp.lotSize);
+                    console.log(requiredLots,mrp.name)
                     for (let i = 0; i < requiredLots; i++) {
                         if (index - i >= 0) {
                             mrp.mrpPeriods[index - i].plannedOrderReleases = mrp.lotSize;
@@ -157,6 +163,7 @@ export function recalculateComponent(mrp: MRPComponent, allowAddingReceipts?: bo
         }
         componentRequired[index] = MRPPeriod.grossRequirements;
     });
+     console.log(mrp)
     propagateGrossRequirements(mrp, componentRequired);
     return mrp;
 }
