@@ -9,6 +9,7 @@ class MRPComponent {
     mrpPeriods: MRPPeriod[];
     numberOfPeriods: number;
     children: MRPComponent[];
+    automaticChildCalculation: boolean;
 
     /**
      * Constructor for the MRPComponent class
@@ -17,6 +18,7 @@ class MRPComponent {
      * @param leadTime The time it takes to produce the component
      * @param lotSize The size of a single lot
      * @param onHand The number of components in the inventory
+     * @param numberOfPeriods
      * @param mrpPeriods All production periods for this component
      * @param children The children components of this component
      */
@@ -26,9 +28,10 @@ class MRPComponent {
         leadTime = 0,
         lotSize = 0,
         onHand = 0,
-        numberOfPeriods=7,
+        numberOfPeriods= 7,
         mrpPeriods = <MRPPeriod[]>[],
-        children = <MRPComponent[]>[]
+        children = <MRPComponent[]>[],
+        automaticChildCalculation = true,
     ) {
         this.numberOfPeriods =numberOfPeriods;
         this.name = name;
@@ -38,6 +41,8 @@ class MRPComponent {
         this.onHand = onHand;
         this.mrpPeriods = mrpPeriods;
         this.children = children;
+        this.automaticChildCalculation = true;
+
     }
 }
 

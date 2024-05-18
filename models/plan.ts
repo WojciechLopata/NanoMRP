@@ -10,7 +10,8 @@ class Plan {
 
     lotSize: number;
 
-    automaticMSPCalculations= false;
+    automaticMSPCalculations = true;
+    allowAddingReceipts: boolean = false;
 
 
     /**
@@ -19,20 +20,20 @@ class Plan {
      * @param onHand Number of finished products at the beginning in the inventory
      * @param mpsPeriods All the periods (columns) in the Master Production Schedule table
      * @param mrpComponents All the components (tables) in the Material Requirements Plan
+     * @param lotSize
      */
     constructor(
         numberOfPeriods = 0,
         onHand = 0,
         mpsPeriods = <MPSPeriod[]>[],
         mrpComponents = <MRPComponent[]>[],
-        lotSize=1
-
+        lotSize = 1
     ) {
         this.numberOfPeriods = numberOfPeriods;
         this.onHand = onHand;
         this.mpsPeriods = mpsPeriods;
         this.mrpComponents = mrpComponents;
-        this.lotSize=lotSize;
+        this.lotSize = lotSize;
     }
 }
 

@@ -1,5 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Quick launch
+
+Run the following command to download and launch the app in development mode:
+
+```bash
+git clone https://github.com/WojciechLopata/NanoMRP.git && cd NanoMRP/ && npm i && npm run dev
+```
+
 ## Qucik start
 
 Use the following command to download the project, install dependencies and run the app in development mode:
